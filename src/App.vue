@@ -74,7 +74,6 @@ export default {
   methods:{
       AgregarAlNavBar(producto){
           this.productosEnCarrito.push(producto);
-           console.log(this.productosEnCarrito);
         }
     }
 

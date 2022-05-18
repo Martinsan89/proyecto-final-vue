@@ -17,8 +17,6 @@
             X
         </button>
     </vue-final-modal>
-
-
 </template>
 
 <script>
