@@ -22,7 +22,7 @@ export default {
     },
     methods: {
        AgregarAlCarrito() {
-            this.$emit("agregar-al-carrito", this.producto);
+            this.$emit("agregar-al-carrito", this.producto.id);
         },
         getImgUrl() {
             return require(`@/assets/ImgZapas/${this.producto.img}`);
