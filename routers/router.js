@@ -1,7 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 // import Route1 from "../views/route1/Route1.vue";
-// import Route2 from "../views/route1/Route2.vue";
 
 Vue.use(VueRouter);
 
