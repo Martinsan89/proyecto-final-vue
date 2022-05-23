@@ -1,6 +1,7 @@
 <template>
   <UserLogin></UserLogin>
-
+  <router-view />
+  <router-link to="/Route1">Route1</router-link>
   <NavBar
   :producto="productosEnCarrito"
   ></NavBar>
@@ -11,12 +12,11 @@
     @agregar-al-carrito="AgregarAlNavBar"
   >
   </Productos>
-  <router-view />
 </template>
 
 
 <script>
-import UserLogin from './components/LogIn /UserLogin.vue';
+import UserLogin from './components/LogIn/UserLogin.vue';
 import Productos from './components/Productos.vue';
 import NavBar from './components/NavBar.vue'
 
