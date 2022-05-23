@@ -11,6 +11,7 @@
     @agregar-al-carrito="AgregarAlNavBar"
   >
   </Productos>
+  <router-view />
 </template>
 
 

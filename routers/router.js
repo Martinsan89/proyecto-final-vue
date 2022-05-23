@@ -1,11 +1,22 @@
 import Vue from "vue";
-import VueRouter from "vue-router;"
-import Route1 from "../views/route1/Route1.vue"
+import VueRouter from "vue-router";
+// import Route1 from "../views/route1/Route1.vue";
+// import Route2 from "../views/route1/Route2.vue";
 
-Vue.useAttrs(VueRouter);
-const routes =[
+Vue.use(VueRouter);
+
+const routes = [
   {
-    path:
-  }
+    path: "/Route1",
+    name: "Route1",
+    component: () => import("../views/route1/Route1.vue"),
+  },
+];
 
-]
+const router = new VueRouter({
+  mode: "history",
+  base: process.env.BASE_URL,
+  routes,
+});
+
+export default router;
