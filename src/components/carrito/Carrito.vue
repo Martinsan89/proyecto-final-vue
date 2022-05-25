@@ -1,43 +1,50 @@
 <template>
-    <vue-final-modal
-        name="carrito"
-        v-slot="{close}"
-        v-bind="$attrs"
-        classes="modal-container"
-        content-class="modal-content"
-        v-on="$attrs"
-    >
-        <div v-if="carrito.length" class="modal_content">
-            <ListaCarrito :carrito="carrito"/>
-        </div>
-        <div v-else class="modal_content">
-            <h5>Debes agregar productos al carrito</h5>
-        </div>
-        <button class="btn btn-outline-primary modal_clase" @click="close">
-            X
-        </button>
-    </vue-final-modal>
+  <div>
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th scope="col" colspan="10">Productos</th>
+                <th scope="col" colspan="1">Cantidad</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="producto in productosAlCarrito" :key="producto.id">
+               <th scope="col" colspan="10">{{producto.marca}} {{producto.modelo}}</th>
+                <th scope="col" colspan="1">{{producto.quantity}}</th>
+                <th scope="col">{{producto.precio}}</th>
+                <th scope="col">{{producto.total}}</th>
+            </tr>
+        </tbody>
+
+        <tfoot>
+            <td scope="col" colspan="10"></td>
+            <td scope="col" ><h4>Cantidad total: {{totalQuantity}}</h4></td>
+            <td scope="col" ></td>
+            <td scope="col"><h5>Precio Total: ${{totalFinal}}</h5></td>
+        </tfoot>
+    </table>
+  </div>
 </template>
 
 <script>
-import {$vfm, VueFinalModal } from 'vue-final-modal'
-import ListaCarrito from './ListaCarrito.vue'
+
 
 export default {
-    name: "CustomModal",
-    inheritAttrs: false,
-    components: {
-        VueFinalModal, ListaCarrito
-    },
+    name: "Carrito",
     props: {
-        carrito: {
-            type: Array
+        productosAlCarrito: {
+          type: Array
         }
     },
-    methods: {
-        close(){
-            $vfm.hide('cartModal')
-        }
+    computed: {
+      totalQuantity(){
+        return this.productosAlCarrito.reduce((acc, item) => acc + item.quantity, 0)
+      },
+      totalFinal(){
+        return this.productosAlCarrito.reduce((acc, item) => acc + item.total, 0)
+      },
     }
 }
 </script>

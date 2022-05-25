@@ -4,7 +4,8 @@
   <!-- <router-link to="/Route1">Route1</router-link>
   <router-view /> -->
   <NavBar
-  :producto="productosEnCarrito"
+  :productosNavBar="productosAlCarrito"
+  @vaciar-productos="vaciarProductos"
   ></NavBar>
   <Productos
     v-for="producto in productosLista"
@@ -74,11 +75,11 @@ export default {
         drop: "7mm",
         img: "nike-react.jpeg"
     }],
-    productosEnCarrito:[],
+    productosAlCarrito:[],
   }),
   methods:{
     AgregarAlNavBar(productoId){
-      const prodEnCarrito = this.productosEnCarrito.find(product => product.id === productoId)
+      const prodEnCarrito = this.productosAlCarrito.find(product => product.id === productoId);
 
       if(prodEnCarrito){
           prodEnCarrito.quantity++;
@@ -87,12 +88,15 @@ export default {
           const findProduct = this.productosLista.find(product => product.id === productoId);
           const nuevoProd = {...findProduct};
 
-          this.productosEnCarrito.push({
+          this.productosAlCarrito.push({
             ...nuevoProd,
             quantity: 1,
             total: nuevoProd.precio
-          })
+          });
       }
+    },
+    vaciarProductos(){
+      this.productosAlCarrito = [];
     }
   }
 }

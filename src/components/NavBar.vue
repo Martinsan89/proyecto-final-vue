@@ -8,71 +8,47 @@
               </div>
           </div>
       </nav>
-      <div v-if="ventana">
-      <table class="table">
-        <thead>
-            <button class="btn btn-success" @click.prevent="ventana=false">Cerrar</button>
+      <div v-if="this.ventana">
+        <button class="btn btn-success"
+        @click.prevent="ventana=false">Cerrar</button>
             <button class="btn btn-danger" @click.prevent="VaciarCarrito">Vaciar Carrito</button>
-            <tr>
-                <th scope="col" colspan="10">Productos</th>
-                <th scope="col" colspan="1">Cantidad</th>
-                <th scope="col">Precio</th>
-                <th scope="col">Total</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="producto in producto" :key="producto.id">
-               <th scope="col" colspan="10">{{producto.marca}} {{producto.modelo}}</th>
-                <th scope="col" colspan="1">{{producto.quantity}}</th>
-                <th scope="col">{{producto.precio}}</th>
-                <th scope="col">{{producto.total}}</th>
-            </tr>
-        </tbody>
-
-        <tfoot>
-            <td scope="col" colspan="10"></td>
-            <td scope="col" ></td>
-            <td scope="col" ><h4>Cantidad total:{{totalQuantity}}</h4></td>
-            <td scope="col"><h5>Precio Total: ${{totalFinal}}</h5></td>
-        </tfoot>
-    </table>
+        <Carrito
+        :productosAlCarrito="productosNavBar"
+        >
+        </Carrito>
       </div>
   </div>
 </template>
 
 <script>
-
+import Carrito from '../components/carrito/Carrito.vue'
 export default {
-    name: "NavBar",
-    props:{
-        producto: {
-          type: Array,
-        }
-    },
-    data() {
-        return {
-            ventana: false
-        }
-    },
-    methods: {
-      VaciarCarrito(){
-        return this.producto.length = 0,
-                this.ventana = false;
+  name: "NavBar",
+  components: {
+    Carrito
+  },
+  data() {
+    return {
+      ventana: false
       }
     },
-    computed:{
-        productosCounter(){
-          return this.producto.length;
-        },
-        totalQuantity(){
-          return this.producto.reduce((acc, item) => acc + item.quantity, 0)
-        },
-        totalFinal(){
-          return this.producto.reduce((acc, item) => acc + item.total, 0)
-        },
-
-
+      props:{
+        productosNavBar: {
+          type: Array,
+        }
+      },
+  methods: {
+    VaciarCarrito(){
+      this.$emit('vaciar-productos', {}),
+      this.ventana = false;
     }
+    },
+  computed:{
+    productosCounter(){
+      return this.productosNavBar.length;
+    },
+
+  },
 }
 
 </script>
