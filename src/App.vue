@@ -1,7 +1,8 @@
 <template>
+<div>
   <UserLogin></UserLogin>
-  <router-view />
-  <router-link to="/Route1">Route1</router-link>
+  <!-- <router-link to="/Route1">Route1</router-link>
+  <router-view /> -->
   <NavBar
   :producto="productosEnCarrito"
   ></NavBar>
@@ -12,6 +13,7 @@
     @agregar-al-carrito="AgregarAlNavBar"
   >
   </Productos>
+</div>
 </template>
 
 
@@ -102,21 +104,5 @@ export default {
 }
 </style>
 
-<!-- :producto="item" -->
 
-// import axios from "axios"
 
-    //   mounted(){
-    //       this.getProducts()
-    //   },
-    //   methods: {
-    //       async getProducts (){
-    //           const url = '/products.json';
-
-    //           try {
-    //               const res = await axios.get(url)
-    //               this.productos = await res.data
-    //               console.log(productos);
-    //           } catch (err) {console.log(error)}
-    //       }
-    //   }

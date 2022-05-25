@@ -8,7 +8,7 @@
               </div>
           </div>
       </nav>
-      <div v-bind="ventana" v-if="ventana">
+      <div v-if="ventana">
       <table class="table">
         <thead>
             <button class="btn btn-success" @click.prevent="ventana=false">Cerrar</button>
@@ -56,12 +56,13 @@ export default {
     },
     methods: {
       VaciarCarrito(){
-        return this.producto.length = 0;
+        return this.producto.length = 0,
+                this.ventana = false;
       }
     },
     computed:{
         productosCounter(){
-          return this.producto.length
+          return this.producto.length;
         },
         totalQuantity(){
           return this.producto.reduce((acc, item) => acc + item.quantity, 0)
