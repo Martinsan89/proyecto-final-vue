@@ -1,8 +1,6 @@
 <template>
 <div>
-  <UserLogin></UserLogin>
-  <!-- <router-link to="/Route1">Route1</router-link>
-  <router-view /> -->
+  <router-view />
   <NavBar
   :productosNavBar="productosAlCarrito"
   @vaciar-productos="vaciarProductos"
@@ -19,65 +17,38 @@
 
 
 <script>
-import UserLogin from './components/LogIn/UserLogin.vue';
+// import UserLogin from './components/LogIn/UserLogin.vue';
 import Productos from './components/Productos.vue';
 import NavBar from './components/NavBar.vue'
+
+const axios = require('axios');
 
 
 export default {
   name: 'App',
   components: {
-    UserLogin, Productos, NavBar
+    Productos, NavBar
   },
   data: () => ({
-      productosLista: [    {
-		    id: 1,
-		    marca: "Reebok",
-        modelo: "Floatride Energy 3",
-        peso: "241g",
-        precio: 24100,
-        drop: "9mm",
-        img: "reebok-floatride.jpeg"
-    },
-    {
-        id: 2,
-        marca: "Saucony",
-        modelo: "Endorphin Speed 2",
-        peso: "227g",
-        precio: 22700,
-        drop: "8mm",
-        img: "saucony-endorphin.jpeg"
-    },
-    {
-        id: 3,
-        marca: "Under Armour",
-        modelo: "Flow Velociti Wind",
-        peso: "229g",
-        precio: 22900,
-        drop: "8mm",
-        img: "under-armour-micro.jpeg"
-    },
-    {
-        id: 4,
-        marca: "Adidas",
-        modelo: "AdizeroBoston 10",
-        peso: "294g",
-        precio: 29400,
-        drop: "7mm",
-        img: "adidas-adizero.jpeg"
-    },
-    {
-        id: 5,
-        marca: "Nike",
-        modelo: "React Infinity Run Flyknit 2",
-        peso: "302g",
-        precio: 30200,
-        drop: "7mm",
-        img: "nike-react.jpeg"
-    }],
+      productosLista: [],
     productosAlCarrito:[],
   }),
+  mounted(){
+    this.getProductos()
+  },
   methods:{
+    async getProductos(){
+      await axios.get(`${process.env.VUE_APP_API_URL}/api/producto`)
+      .then(response => {
+        return response.data;
+      })
+      .then(data => {
+        this.productosLista = data;
+      })
+      .catch(err => {console.log(`${err}`)});
+      // .finally(() => {console.log("finalizo la peticion de datos")})
+
+    },
     AgregarAlNavBar(productoId){
       const prodEnCarrito = this.productosAlCarrito.find(product => product.id === productoId);
 
@@ -103,8 +74,8 @@ export default {
 </script>
 
 <style>
-#app {
-    background-color: #b7b7b7;
+body {
+    background-color: beige;
 }
 </style>
 

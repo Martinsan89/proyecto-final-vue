@@ -1,7 +1,10 @@
 <template>
     <div class="card row col-6 text-center py-4" style="width: 18rem;">
         <div class="card-body">
-            <img class="card-img-top" :src="getImgUrl()" :alt="producto.modelo">
+
+            <img class="card-img-top"
+            :src="producto.img"
+            :alt="producto.modelo">
             <h5 class="card-title">{{producto.marca}}</h5>
             <p class="card-text">{{producto.modelo}}</p>
             <p class="card-text">Weight: {{producto.peso}}</p>
@@ -24,9 +27,9 @@ export default {
        AgregarAlCarrito() {
             this.$emit("agregar-al-carrito", this.producto.id);
         },
-        getImgUrl() {
-            return require(`@/assets/ImgZapas/${this.producto.img}`);
-        }
+        // getImgUrl() {
+        //     return this.producto.img;
+        // }
     }
 
 }

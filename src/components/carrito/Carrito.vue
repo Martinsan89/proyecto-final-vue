@@ -5,7 +5,7 @@
             <tr>
                 <th scope="col" colspan="10">Productos</th>
                 <th scope="col" colspan="1">Cantidad</th>
-                <th scope="col">Precio</th>
+                <th scope="col">Precio x Unidad</th>
                 <th scope="col">Total</th>
             </tr>
         </thead>

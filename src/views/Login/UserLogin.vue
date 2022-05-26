@@ -12,21 +12,26 @@
                       <form>
                           <div class="form-row">
                               <div class="col-lg-7">
-                                  <input type="email" placeholder="Email-Adress" class="form-control my-3 p-4">
+                                  <input
+                                  type="email" placeholder="Email-Adress" class="form-control my-3 p-4"
+                                  v-model="form.email">
                               </div>
                           </div>
                           <div class="form-row">
                               <div class="col-lg-7">
-                                  <input type="password" placeholder="*******" class="form-control my-3 p-4">
+                                  <input
+                                  type="password" placeholder="*******" class="form-control my-3 p-4"
+                                  v-model="form.pass">
                               </div>
                           </div>
                           <div class="form-row">
                               <div class="col-lg-7">
-                                  <button type="button" class="btn1 mt-3 mb-5">Login</button>
+                                  <button type="button"
+                                  class="btn1 mt-3 mb-5"
+                                  @click.prevent="getUserData"
+                                  >Login</button>
                               </div>
                           </div>
-                          <a href="#">Olvidste la contrasenia? </a>
-                          <p>No tenes una cuenta? <a href="#">Registrate</a></p>
                       </form>
                   </div>
               </div>
@@ -36,15 +41,45 @@
 </template>
 
 <script>
+const axios = require('axios');
+
 export default {
     name: 'UserLogin',
+    data(){
+      return{
+        form: {
+          email:'',
+          pass: ''
+        },
+        dataUsuario: []
+      }
+    },
+    methods: {
+      async getUserData(){
+        axios.get(`${process.env.VUE_APP_API_URL}/api/corredor`)
+        .then (response => {
+          return response.data;
+        })
+        .then(data => {
+          const dataUser = [...data]
+          if (this.from.email == dataUser.email && this.from.pass == dataUser.pass){
+            this.dataUsuario.push(data)
+          } else {
+            console.log('usuario no creado');
+          }
+        })
+        .catch(err => (console.log(`${err}`)));
+
+
+      }
+    }
 
 }
 </script>
 
-<style>
+<style scoped>
 body {
-    background-color: beige;
+    background-color: grey;
 }
 .row {
     background: white;
