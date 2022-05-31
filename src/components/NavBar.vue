@@ -1,67 +1,59 @@
 <template>
-  <div>
-      <nav class="navbar navbar-expand-lg navbar-light navbar-color">
+  <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light navbar-color">
           <div class="container-fluid">
               <router-link to="/" class="navbar-brand"><h1>LoRun</h1></router-link>
+               <router-link to="/Admin"
+               class="btn btn-success">Admin</router-link>
                <router-link to="/UserLogin" class="btn btn-success">Login</router-link>
-               <!-- <div v-if="UsarioData">
-                 <h3>{{UsuarioData.nombre}}</h3>
-               </div> -->
               <router-link to="/FormLogin" class="btn btn-success">Registrate</router-link>
-              <div class="navbar-nav">
-                  <button @click="ventana = true" class="btn btn-primary" ><span>{{productosCounter}}</span></button>
+                  <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#carritoModal"><span>{{productosCounter}}</span></button>
+            <!-- Modal -->
+            <div class="modal fade" id="carritoModal" tabindex="-1" role="dialog" aria-labelledby="carritoModalTitulo" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="carritoModalTitulo" id="carritoModalTitulo">Carrito LoRun</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true"></span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <button class="btn btn-danger" @click.prevent="VaciarCarrito">Vaciar Carrito</button>
+                    <Carrito
+                    :productosAlCarrito="productosNavBar"
+                    >
+                    </Carrito>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary text-center" data-dismiss="modal">Ver Compras</button>
+                  </div>
+                </div>
               </div>
+            </div>
           </div>
-      </nav>
-      <div v-if="this.ventana">
-        <button class="btn btn-success"
-        @click.prevent="ventana=false">Cerrar</button>
-            <button class="btn btn-danger" @click.prevent="VaciarCarrito">Vaciar Carrito</button>
-        <Carrito
-        :productosAlCarrito="productosNavBar"
-        >
-        </Carrito>
-        <!-- <UserLogin
-        @user-data="UsuarioInfoData"
-        /> -->
-      </div>
+    </nav>
   </div>
 </template>
 
 <script>
-// import UserLogin from '../views/Login/UserLogin.vue'
 import Carrito from '../components/carrito/Carrito.vue'
 export default {
   name: "NavBar",
   components: {
     Carrito
   },
-  data() {
-    return {
-      ventana: false,
-      }
-    },
-      props:{
-        productosNavBar: {
-          type: Array,
-        }
-      },
-  // mounted: {
-  //   UsuarioData: {
-  //     type: Array
-  //   }
-  // },
+
+  props:{
+    productosNavBar: {
+      type: Array,
+    }
+  },
   methods: {
     VaciarCarrito(){
-      this.$emit('vaciar-productos', {}),
-      this.ventana = false;
-    },
-    // UsuarioInfoData(data){
-    //   const userData = [... data]
-    //   this.UsuarioData.push(userData);
-    //   console.log(userData);
-    // }
-    },
+      this.$emit('vaciar-productos', {})
+    }
+  },
   computed:{
     productosCounter(){
       return this.productosNavBar.length;

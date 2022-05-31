@@ -1,42 +1,52 @@
 <template>
   <div class="UserLogin">
-      <section class="Form my-4 mx-5">
-          <div class="container">
-              <div class="row no-gutters">
-                  <div class="col-lg-5">
-                      <img src="@/assets/logoRun.jpeg" class="img-fluid" alt="Logo login">
-                  </div>
-                  <div class="col-lg-7 px-5 pt-5">
-                      <h1 class="font-weight-bold py-3">Lo Run</h1>
-                      <h4>Inicia Sesion con tu cuenta Lo Run</h4>
-                      <form>
-                          <div class="form-row">
-                              <div class="col-lg-7">
-                                  <input
-                                  type="email" placeholder="Email-Adress" class="form-control my-3 p-4"
-                                  v-model="form.email">
-                              </div>
-                          </div>
-                          <div class="form-row">
-                              <div class="col-lg-7">
-                                  <input
-                                  type="password" placeholder="*******" class="form-control my-3 p-4"
-                                  v-model="form.pass">
-                              </div>
-                          </div>
-                          <div class="form-row">
-                              <div class="col-lg-7">
-                                  <button type="button"
-                                  class="btn1 mt-3 mb-5"
-                                  @click.prevent="getUserData"
-                                  >Login</button>
-                              </div>
-                          </div>
-                      </form>
-                  </div>
-              </div>
+    <section class="Form my-4 mx-5">
+      <div class="container">
+        <div class="row no-gutters">
+          <div class="col-lg-5">
+            <img src="@/assets/logoRun.jpeg" class="img-fluid" alt="Logo login">
           </div>
-      </section>
+          <div class="col-lg-7 px-5 pt-5 text-dark">
+            <h1 class="font-weight-bold py-3">Lo Run</h1>
+            <h4>Inicia Sesion con tu cuenta Lo Run</h4>
+            <form>
+              <div class="form-row">
+                <div class="col-lg-7">
+                  <input type="email" placeholder="Email-Adress" class="form-control my-3 p-4"
+                  v-model="form.email">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="col-lg-7">
+                    <input type="password" placeholder="*******" class="form-control my-3 p-4"
+                    v-model="form.pass">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="col-lg-7">
+                  <button type="button"
+                  class="btn1 mt-3 mb-5"
+                  @click.prevent="getUserData"
+                  >Login</button>
+                </div>
+              </div>
+            </form>
+            <div v-if="usuario.admin" class="form-row">
+              <router-link class="col-lg-7" to="/Admin">
+              <button type="button"
+                class="btn1 mt-3 mb-5"
+              >ir a Admin</button></router-link>
+            </div>
+            <div v-if="usuario.cliente" class="form-row">
+              <router-link class="col-lg-7" to="/">
+              <button type="button"
+                class="btn1 mt-3 mb-5"
+              >ir a Home</button></router-link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -51,26 +61,39 @@ export default {
           email:'',
           pass: ''
         },
-        dataUsuario: []
+        usuario: {
+          cliente: false,
+          admin: false,
+        },
+        error: ''
       }
     },
     methods: {
       async getUserData(){
-        axios.get(`${process.env.VUE_APP_API_URL}/api/corredor`)
+        await axios.get(`${process.env.VUE_APP_API_URL}/api/corredor`)
         .then (response => {
           return response.data;
         })
         .then(data => {
-          const dataUser = [...data]
-          if (this.from.email == dataUser.email && this.from.pass == dataUser.pass){
-            this.dataUsuario.push(data)
+          const userCliente = data.filter(i => i.email == this.form.email && i.pass == this.form.pass);
+          const userAdmin = this.form.email === "admin@admin.com" && this.form.pass === "admin";
+          console.log(userCliente);
+          console.log(userAdmin);
+          if(userCliente){
+            this.usuario.cliente = userCliente;
           } else {
-            console.log('usuario no creado');
+            this.error = "usuario no encontrado";
           }
+          if(userAdmin){
+            this.usuario.admin = userAdmin;
+          }
+
         })
         .catch(err => (console.log(`${err}`)));
 
-
+        console.log(this.usuario.admin);
+        console.log(this.usuario.cliente);
+        console.log(this.error);
       }
     }
 

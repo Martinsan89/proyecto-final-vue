@@ -5,10 +5,10 @@
             <img class="card-img-top"
             :src="producto.img"
             :alt="producto.modelo">
-            <h5 class="card-title">{{producto.marca}}</h5>
-            <p class="card-text">{{producto.modelo}}</p>
-            <p class="card-text">Weight: {{producto.peso}}</p>
-            <p class="card-text">${{producto.precio}}</p>
+            <h5 class="card-title text-dark">{{producto.marca}}</h5>
+            <p class="card-text text-dark">{{producto.modelo}}</p>
+            <p class="card-text text-dark">Weight: {{producto.peso}}</p>
+            <p class="card-text text-dark">${{producto.precio}}</p>
             <button class="btn btn-dark" @submit.prevent @click="AgregarAlCarrito()" >Comprar</button>
         </div>
     </div>
@@ -27,9 +27,6 @@ export default {
        AgregarAlCarrito() {
             this.$emit("agregar-al-carrito", this.producto.id);
         },
-        // getImgUrl() {
-        //     return this.producto.img;
-        // }
     }
 
 }
