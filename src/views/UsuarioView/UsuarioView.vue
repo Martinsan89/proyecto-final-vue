@@ -1,16 +1,12 @@
 <template>
-  <div class="home">
+  <div class="userview">
     <NavBar
     :productosNavBar="productosAlCarrito"
     @vaciar-productos="vaciarProductos"
-    ></NavBar>
-    <div class="text-end mx-4">
-      <!-- <router-link to="/Admin"
-      class="btn btn-success">Admin</router-link> -->
-      <router-link to="/UserLogin" class="btn btn-success">Login</router-link>
-      <router-link to="/FormLogin" class="btn btn-success">Registrate</router-link>
-    </div>
-    <br>
+    >
+    </NavBar>
+    <h3 class="text-center text-dark">Hola {{user.nombre}}!</h3>
+        <br>
     <Productos
       v-for="producto in productosLista"
       :key="producto.id"
@@ -21,8 +17,8 @@
 </template>
 
 <script>
-import NavBar from '../components/NavBar.vue'
-import Productos from '../components/Productos.vue';
+import NavBar from '../../components/NavBar.vue'
+import Productos from '../../components/Productos.vue';
 
 const axios = require('axios');
 export default {
@@ -33,6 +29,7 @@ export default {
   data: () => ({
     productosLista: [],
     productosAlCarrito:[],
+    user: []
   }),
    mounted(){
     this.getProductos();
@@ -74,14 +71,14 @@ export default {
     },
       getCarrito(){
       this.productosAlCarrito = JSON.parse(localStorage.getItem('carrito')) || [];
+      this.user = JSON.parse(localStorage.getItem('UsuarioGuardado')) || [];
     }
   }
 }
 </script>
 
 <style scoped>
-.home {
-  background-color: grey;
+.userview {
+  background-color: #18b466;
 }
-
 </style>

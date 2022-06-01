@@ -1,8 +1,5 @@
 <template>
 <div>
-  <router-link to="/"
-  class="btn btn-primary"
-  >Home</router-link>
   <router-view />
 
 </div>

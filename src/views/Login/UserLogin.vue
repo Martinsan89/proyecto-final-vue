@@ -26,23 +26,25 @@
                 <div class="col-lg-7">
                   <button type="button"
                   class="btn1 mt-3 mb-5"
-                  @click.prevent="getUserData"
+                  @click.prevent="validarDatos"
                   >Login</button>
+                </div>
+                <div v-if="error">
+                  <h3 class="text-danger">Usuario no registrado</h3>
+                   <router-link to="/FormLogin" class="btn btn-success">Registrate</router-link>
                 </div>
               </div>
             </form>
-            <div v-if="usuario.admin" class="form-row">
+            <!-- <div v-if="usuario.admin" class="form-row">
               <router-link class="col-lg-7" to="/Admin">
-              <button type="button"
-                class="btn1 mt-3 mb-5"
-              >ir a Admin</button></router-link>
+              </router-link>
             </div>
             <div v-if="usuario.cliente" class="form-row">
               <router-link class="col-lg-7" to="/">
               <button type="button"
                 class="btn1 mt-3 mb-5"
               >ir a Home</button></router-link>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -51,6 +53,7 @@
 </template>
 
 <script>
+
 const axios = require('axios');
 
 export default {
@@ -61,40 +64,61 @@ export default {
           email:'',
           pass: ''
         },
-        usuario: {
-          cliente: false,
-          admin: false,
-        },
-        error: ''
+        corredor: [],
+        error: false,
+        userLogged: null
       }
     },
+    mounted() {
+      this.getCorredorData();
+    },
     methods: {
-      async getUserData(){
+      async getCorredorData(){
         await axios.get(`${process.env.VUE_APP_API_URL}/api/corredor`)
         .then (response => {
           return response.data;
         })
         .then(data => {
-          const userCliente = data.filter(i => i.email == this.form.email && i.pass == this.form.pass);
-          const userAdmin = this.form.email === "admin@admin.com" && this.form.pass === "admin";
-          console.log(userCliente);
-          console.log(userAdmin);
-          if(userCliente){
-            this.usuario.cliente = userCliente;
-          } else {
-            this.error = "usuario no encontrado";
-          }
-          if(userAdmin){
-            this.usuario.admin = userAdmin;
-          }
-
+          this.corredor = data;
         })
         .catch(err => (console.log(`${err}`)));
-
-        console.log(this.usuario.admin);
-        console.log(this.usuario.cliente);
-        console.log(this.error);
-      }
+      },
+      // validarEmail(){
+      //   if(this.corredor.find(user => user.email === this.form.email)) {
+      //     this.emailOk = true;
+      //   }else {
+      //     this.emailOk = false;
+      //   }
+      // },
+      // validarPass(){
+      //   if(this.corredor.find(user => user.pass === this.form.pass) && this.emailOk) {
+      //     this.passOk = true;
+      //   }else {
+      //     this.passOk = false;
+      //   }
+      // },
+      validarDatos(){
+        let datosValidos = false;
+        this.corredor.find( element => {
+          if(element.email == this.form.email && element.pass == this.form.pass){
+            datosValidos = true;
+            this.userLogged = element;
+            this.SaveUserLoggedInStorage(element);
+            this.$emit('logged-in', element);
+          }else {
+            this.datosValidos = false;
+          }
+        });
+        if (this.userLogged != null){
+          if (this.userLogged?.isAdmin == false) {
+              this.$router.push({name: 'UsuarioView'});
+            }else {
+              this.$router.push({name: 'Admin'});
+            }
+        }else {
+          this.error = true;
+        }
+      },
     }
 
 }

@@ -137,7 +137,9 @@ export default {
                 }
                 await axios.post(`${process.env.VUE_APP_API_URL}/api/corredor`, userData)
                 .then(response => {
-                  console.log('usuario agregado', response.data)
+                  let user = response.data;
+                  this.SaveUserLoggedInStorage(user);
+                  this.$router.push({name:"UsuarioView"});
                 })
                 .catch(error => console.log(error));
                     // Reset

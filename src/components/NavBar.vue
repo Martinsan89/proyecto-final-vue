@@ -2,12 +2,8 @@
   <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light navbar-color">
           <div class="container-fluid">
-              <router-link to="/" class="navbar-brand"><h1>LoRun</h1></router-link>
-               <router-link to="/Admin"
-               class="btn btn-success">Admin</router-link>
-               <router-link to="/UserLogin" class="btn btn-success">Login</router-link>
-              <router-link to="/FormLogin" class="btn btn-success">Registrate</router-link>
-                  <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#carritoModal"><span>{{productosCounter}}</span></button>
+             <router-link to="/"     class="navbar-brand"><h1>LoRun</h1></router-link>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#carritoModal"><span>{{productosCounter}}</span></button>
             <!-- Modal -->
             <div class="modal fade" id="carritoModal" tabindex="-1" role="dialog" aria-labelledby="carritoModalTitulo" aria-hidden="true">
               <div class="modal-dialog" role="document">
@@ -26,7 +22,11 @@
                     </Carrito>
                   </div>
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary text-center" data-dismiss="modal">Ver Compras</button>
+                    <router-link to="/UsuarioCompras"
+                    type="button"
+                    class="btn btn-secondary text-center"
+                    data-dismiss="modal"
+                    >Ver Compras</router-link>
                   </div>
                 </div>
               </div>

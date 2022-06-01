@@ -23,6 +23,18 @@ const routes = [
     props: true,
   },
   {
+    path: "/UsuarioView",
+    name: "UsuarioView",
+    component: () => import("../views/UsuarioView/UsuarioView.vue"),
+    props: true,
+  },
+  {
+    path: "/UsuarioCompras",
+    name: "UsuarioCompras",
+    component: () => import("../views/UsuarioView/UsuarioCompras.vue"),
+    props: true,
+  },
+  {
     path: "/Admin",
     name: "Admin",
     component: () => import("../views/Admin/Admin.vue"),
