@@ -40,8 +40,8 @@ export default {
   },
   methods: {
     AgregarAlNavBar(productoId){
-      const prodEnCarrito = this.productosAlCarrito.find(product => product.id === productoId);
 
+      const prodEnCarrito = this.productosAlCarrito.find(product => product.id === productoId);
       if(prodEnCarrito){
           prodEnCarrito.quantity++;
           prodEnCarrito.total = prodEnCarrito.quantity * prodEnCarrito.precio;

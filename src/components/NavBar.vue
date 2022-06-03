@@ -2,7 +2,7 @@
   <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light navbar-color">
           <div class="container-fluid">
-             <router-link to="/"     class="navbar-brand"><h1>LoRun</h1></router-link>
+             <router-link to="/" class="navbar-brand"><h1>LoRun</h1></router-link>
             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#carritoModal"><span>{{productosCounter}}</span></button>
             <!-- Modal -->
             <div class="modal fade" id="carritoModal" tabindex="-1" role="dialog" aria-labelledby="carritoModalTitulo" aria-hidden="true">
@@ -18,15 +18,9 @@
                     <button class="btn btn-danger" @click.prevent="VaciarCarrito">Vaciar Carrito</button>
                     <Carrito
                     :productosAlCarrito="productosNavBar"
+                    @vaciar-table='VaciarTable'
                     >
                     </Carrito>
-                  </div>
-                  <div class="modal-footer">
-                    <router-link to="/UsuarioCompras"
-                    type="button"
-                    class="btn btn-secondary text-center"
-                    data-dismiss="modal"
-                    >Ver Compras</router-link>
                   </div>
                 </div>
               </div>
@@ -43,7 +37,6 @@ export default {
   components: {
     Carrito
   },
-
   props:{
     productosNavBar: {
       type: Array,
@@ -51,8 +44,12 @@ export default {
   },
   methods: {
     VaciarCarrito(){
-      this.$emit('vaciar-productos', {})
-    }
+      localStorage.removeItem('carrito');
+      this.$emit('vaciar-productos', {});
+    },
+    VaciarTable(){
+      this.$emit(this.$emit('reset-table', {}))
+    },
   },
   computed:{
     productosCounter(){

@@ -42,7 +42,8 @@ export default {
     zapatilla: false
   }),
   mounted(){
-    this.getProductos()
+    this.getProductos(),
+    this.RedirectToLoginIfLoggedUserIsNotAdmin()
   },
   methods: {
     async getProductos(){

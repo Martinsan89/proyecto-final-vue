@@ -1,9 +1,8 @@
 <template>
-  <div>
-    <router-link
-    v-if="user"
-    :to="user.isAdmin ? 'Admin' : 'Home'"
-    >&#8592; Volver</router-link>
+  <div class="listaCompras">
+    <router-link class="btn btn-dark mx-3"
+    to="/UsuarioView"
+    >Volver</router-link>
     <h3 class="text-center text-primary">Compras Realizadas</h3>
     <table class="table table-striped table-bordered">
       <thead class="text-dark">
@@ -40,6 +39,7 @@ export default {
     }
   },
   mounted(){
+    this.$forceUpdate();
     this.getUser();
     this.getCompras();
   },
@@ -61,6 +61,9 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.listaCompras {
+  background-color: #9fd0fb;
+}
 
 </style>

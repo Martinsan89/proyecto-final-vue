@@ -3,10 +3,20 @@
     <NavBar
     :productosNavBar="productosAlCarrito"
     @vaciar-productos="vaciarProductos"
+    @reset-table="vaciarTable"
     >
     </NavBar>
+    <div class="text-end">
+      <button class="btn btn-warning mx-3"
+      @click="dropUser"
+      > Log out</button>
+      <button @click="verCompras"
+      type="button"
+      class="btn btn-secondary text-center"
+      >Ver Compras</button>
+    </div>
     <h3 class="text-center text-dark">Hola {{user.nombre}}!</h3>
-        <br>
+    <br>
     <Productos
       v-for="producto in productosLista"
       :key="producto.id"
@@ -57,6 +67,9 @@ export default {
     vaciarProductos(){
       this.productosAlCarrito = [];
     },
+    vaciarTable(){
+      this.productosAlCarrito = [];
+    },
     async getProductos(){
       await axios.get(`${process.env.VUE_APP_API_URL}/api/producto`)
       .then(response => {
@@ -72,7 +85,15 @@ export default {
       getCarrito(){
       this.productosAlCarrito = JSON.parse(localStorage.getItem('carrito')) || [];
       this.user = JSON.parse(localStorage.getItem('UsuarioGuardado')) || [];
+    },
+    dropUser(){
+      localStorage.removeItem('UsuarioGuardado');
+      this.$router.push('/');
+    },
+    verCompras() {
+      this.$router.push('/UsuarioCompras');
     }
+
   }
 }
 </script>

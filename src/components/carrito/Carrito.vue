@@ -27,13 +27,14 @@
             <td class="text-dark" scope="col"><h5>Precio Total: ${{totalFinal}}</h5></td>
         </tfoot>
     </table>
-    <div class="btnCompra text-center">
+    <div v-if="productosAlCarrito" class="btnCompra text-center">
         <button
         class="btn btn-dark"
         @click.prevent="Comprar"
         >Finalizar compra</button>
-        <div v-if="ventana" class="mt-3">
-          <h3 class="text-success text-center">Compra realizada!</h3>
+        <div class="text-center mt-2">
+          <span v-if="compraOk" class="text-success text-center">Compra realizada!</span>
+          <span v-if="compraFail" class="text-danger text-center">Inicia sesion para finalizar la compra</span>
         </div>
     </div>
   </div>
@@ -54,30 +55,32 @@ export default {
   data(){
     return{
       user: [],
-      ventana: false
+      compraOk: false,
+      compraFail: false
     }
   },
   mounted(){
     this.getUser();
+    this.compraFail = false;
+    this.compraOk = false;
   },
   methods: {
     async Comprar(){
-      const compra = {
-        marca: this.productosAlCarrito.marca,
-        modelo:this.productosAlCarrito.modelo,
-        precio: this.productosAlCarrito.precio,
-        quantity: this.totalQuantity,
-        total: this.totalFinal
-      }
-      await axios.post(`${process.env.VUE_APP_API_URL}/api/corredor/${this.user.id}/compras`, compra)
-      .then(response => {
-        console.log('usuario agregado', response.data)
-      })
-      .catch(error => console.log(error));
-
-      this.ventana = true;
-      this.productosAlCarrito = [];
-
+        const compra = {
+          marca: this.productosAlCarrito.marca,
+          modelo:this.productosAlCarrito.modelo,
+          precio: this.productosAlCarrito.precio,
+          quantity: this.totalQuantity,
+          total: this.totalFinal
+        }
+        await axios.post(`${process.env.VUE_APP_API_URL}/api/corredor/${this.user.id}/compras`, compra)
+        .then(response => {
+          response.data,
+          localStorage.removeItem('carrito'),
+          this.$emit('vaciar-table', {})
+          this.compraOk = true;
+        })
+        .catch(error => this.compraFail = true);
     },
     getUser(){
       this.user = JSON.parse(localStorage.getItem('UsuarioGuardado')) || [];
@@ -88,8 +91,8 @@ export default {
       return this.productosAlCarrito.reduce((acc, item) => acc + item.quantity, 0)
     },
     totalFinal(){
-      return this.productosAlCarrito.reduce((acc, item) => acc + item.total, 0)
-    },
+      return this.productosAlCarrito.reduce((acc, item) => acc + parseInt(item.total), 0)
+    }
   },
 }
 </script>
