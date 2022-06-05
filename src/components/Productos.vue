@@ -39,8 +39,8 @@ export default {
     methods: {
        AgregarAlCarrito() {
             this.$emit("agregar-al-carrito", this.producto.id);
-            this.ventana = true
-        },
+            this.ventana = true;
+        }
     }
 
 }

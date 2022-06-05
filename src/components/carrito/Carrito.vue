@@ -79,6 +79,7 @@ export default {
           localStorage.removeItem('carrito'),
           this.$emit('vaciar-table', {})
           this.compraOk = true;
+
         })
         .catch(error => this.compraFail = true);
     },

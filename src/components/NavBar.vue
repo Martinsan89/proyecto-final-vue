@@ -48,7 +48,7 @@ export default {
       this.$emit('vaciar-productos', {});
     },
     VaciarTable(){
-      this.$emit(this.$emit('reset-table', {}))
+      this.$emit('reset-table', {});
     },
   },
   computed:{
