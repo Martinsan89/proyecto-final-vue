@@ -1,7 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
-// import productos from "./modules/producto"
-const axios = require("axios");
+import apiServices from "@/services/apiServices";
+import users from "./modules/users";
+import carrito from "./modules/carrito";
 
 Vue.use(Vuex);
 
@@ -12,59 +13,53 @@ export default new Vuex.Store({
     productosAlCarrito: [],
   },
   getters: {
-    getProductosLista: (state) => state.productosLista,
+    getProductosLista: (state) => {
+      return state.productosLista;
+    },
+    getProductosAlCarrito: (state) => {
+      return state.productosAlCarrito;
+    },
+    getProductosAlCarritoLength: (state) => (length) => {
+      return state.productosAlCarrito.slice(0, length);
+    },
   },
   mutation: {
     setProductosLista(state, payload) {
       state.productosLista = payload;
     },
-    setProductosAlCarrito(state) {
-      const prodEnCarrito = this.state.productosAlCarrito.find(
-        (product) => product.id === state
+    setProductosAlCarrito: (state, productoId) => {
+      const prodEnCarrito = state.productosAlCarrito.find(
+        (product) => product.id === productoId
       );
       if (prodEnCarrito) {
         prodEnCarrito.quantity++;
         prodEnCarrito.total = prodEnCarrito.quantity * prodEnCarrito.precio;
       } else {
-        const findProduct = this.state.productosLista.find(
-          (product) => product.id === state
+        const findProduct = state.productosLista.find(
+          (product) => product.id === productoId
         );
         const nuevoProd = { ...findProduct };
 
-        this.state.productosAlCarrito.push({
+        state.productosAlCarrito.push({
           ...nuevoProd,
           quantity: 1,
           total: nuevoProd.precio,
         });
       }
-      localStorage.setItem(
-        "carrito",
-        JSON.stringify(this.state.productosAlCarrito)
-      );
+      localStorage.setItem("carrito", JSON.stringify(state.productosAlCarrito));
     },
-    vaciarProductos(state) {
+    setVaciarProductos: (state) => {
       state.productosAlCarrito = [];
     },
-    setCarrito(state) {
+    setCarrito: (state) => {
       state.productosAlCarrito =
         JSON.parse(localStorage.getItem("carrito")) || [];
     },
   },
   actions: {
-    async toProductos({ commit }) {
+    async toProductosLista({ commit }) {
       let result = null;
-      await axios
-        .get(`${process.env.VUE_APP_API_URL}/api/producto`)
-        .then((response) => {
-          let result = response.data.map((item) => {
-            let { id, marca, modelo, peso, precio, drop, img } = item;
-            return { id, marca, modelo, peso, precio, drop, img };
-          });
-          return result;
-        })
-        .catch((err) => {
-          console.log(`${err}`);
-        });
+      await apiServices.getProductos();
       if (result != null) {
         commit("setProductosLista", result);
       }
@@ -72,14 +67,15 @@ export default new Vuex.Store({
     toProductosAlCarrito({ commit, productoId }) {
       commit("setProductosAlCarrito", productoId);
     },
-    setCarrito(context) {
+    toSetCarrito: (context) => {
       context.commit("setCarrito");
     },
-    vaciarProductos(context) {
+    toVaciarProductos: (context) => {
       context.commit("vaciarProductos");
     },
   },
-  // modules: {
-  //   productos
-  // }
+  modules: {
+    users,
+    carrito,
+  },
 });

@@ -2,7 +2,7 @@
   <div class="container">
     <div class="col-4">
       <div class="row">
-        <div class="card text-center" v-for="producto in productosLista"
+        <div class="card text-center" v-for="producto in getProductosLista"
         :key="producto.id">
           <img class="card-img-top"
           :src="producto.img"
@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 export default {
     name:"Productos",
     data(){
@@ -32,21 +32,18 @@ export default {
         ventana: false
       }
     },
-    // props: {
-    //     producto: {
-    //         type: Object,
-    //         required: true
-    //     }
-    // },
+    created(){
+      this.toProductosLista();
+    },
+    mounted(){
+      this.getProductosLista;
+      console.log(this.getProductosLista);
+    },
     computed: {
-      ...mapGetters(['productosLista'])
+      ...mapGetters(['getProductosLista'])
     },
     methods: {
-      //  AgregarAlCarrito() {
-      //       this.$emit("agregar-al-carrito", this.producto.id);
-      //       this.ventana = true;
-      //   }
-      ...mapActions(['toProductosAlCarrito'])
+      ...mapActions(['toProductosLista'])
     }
 
 }
