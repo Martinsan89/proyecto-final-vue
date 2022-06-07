@@ -10,7 +10,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr class="producto" v-for="producto in productosAlCarrito" :key="producto.id">
+            <tr class="producto" v-for="producto in getProductosAlCarrito" :key="producto.id">
                <th class="text-dark" scope="col" colspan="10">{{producto.marca}} {{producto.modelo}}</th>
                 <th class="text-dark" scope="col" colspan="1">
                   {{producto.quantity}}
@@ -27,73 +27,80 @@
             <td class="text-dark" scope="col"><h5>Precio Total: ${{totalFinal}}</h5></td>
         </tfoot>
     </table>
-    <div v-if="productosAlCarrito" class="btnCompra text-center">
+    <div v-if="getProductosAlCarrito" class="btnCompra text-center">
         <button
         class="btn btn-dark"
         @click.prevent="Comprar"
         >Finalizar compra</button>
-        <div class="text-center mt-2">
+        <!-- <div class="text-center mt-2">
           <span v-if="compraOk" class="text-success text-center">Compra realizada!</span>
           <span v-if="compraFail" class="text-danger text-center">Inicia sesion para finalizar la compra</span>
-        </div>
+        </div> -->
     </div>
   </div>
 </template>
 
 
 <script>
-
-const axios = require('axios');
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: "Carrito",
-  props: {
-    productosAlCarrito: {
-      type: Array
-    }
-  },
-  data(){
-    return{
-      user: [],
-      compraOk: false,
-      compraFail: false
-    }
-  },
+  // props: {
+  //   productosAlCarrito: {
+  //     type: Array
+  //   }
+  // },
+  // data(){
+  //   return{
+  //     // user: [],
+  //     compraOk: false,
+  //     compraFail: false
+  //   }
+  // },
   mounted(){
-    this.getUser();
-    this.compraFail = false;
-    this.compraOk = false;
-  },
-  methods: {
-    async Comprar(){
-        const compra = {
-          marca: this.productosAlCarrito.marca,
-          modelo:this.productosAlCarrito.modelo,
-          precio: this.productosAlCarrito.precio,
-          quantity: this.totalQuantity,
-          total: this.totalFinal
-        }
-        await axios.post(`${process.env.VUE_APP_API_URL}/api/corredor/${this.user.id}/compras`, compra)
-        .then(response => {
-          response.data,
-          localStorage.removeItem('carrito'),
-          this.$emit('vaciar-table', {})
-          this.compraOk = true;
-
-        })
-        .catch(error => this.compraFail = true);
-    },
-    getUser(){
-      this.user = JSON.parse(localStorage.getItem('UsuarioGuardado')) || [];
-    }
+    // this.toUsers();
+    this.getProductosAlCarrito;
+    // this.compraFail = false;
+    // this.compraOk = false;
   },
   computed: {
+    ...mapGetters(['getProductosAlCarrito']),
     totalQuantity(){
-      return this.productosAlCarrito.reduce((acc, item) => acc + item.quantity, 0)
+      return this.getProductosAlCarrito.reduce((acc, item) => acc + item.quantity, 0)
     },
     totalFinal(){
-      return this.productosAlCarrito.reduce((acc, item) => acc + parseInt(item.total), 0)
+      return this.getProductosAlCarrito.reduce((acc, item) => acc + parseInt(item.total), 0)
     }
+  },
+  methods: {
+    ...mapActions('carrito',['Comprar']),
+    DropCarrito(){
+      if(this.Comprar != null){
+        localStorage.removeItem('carrito')
+      }
+    }
+    // async Comprar(){
+        // const compra = {
+        //   marca: this.productosAlCarrito.marca,
+        //   modelo:this.productosAlCarrito.modelo,
+        //   precio: this.productosAlCarrito.precio,
+        //   quantity: this.totalQuantity,
+        //   total: this.totalFinal
+        // }
+        // await axios.post(`${process.env.VUE_APP_API_URL}/api/corredor/${this.user.id}/compras`, compra)
+        // .then(response => {
+        //   response.data,
+        //   localStorage.removeItem('carrito'),
+        //   this.$emit('vaciar-table', {})
+        //   this.compraOk = true;
+
+        // })
+        // .catch(error => this.compraFail = true);
+    // },
+    // getUser(){
+    //   this.user = JSON.parse(localStorage.getItem('UsuarioGuardado')) || [];
+    // }
   },
 }
 </script>

@@ -2,7 +2,8 @@
   <div class="container">
     <div class="col-4">
       <div class="row">
-        <div class="card text-center">
+        <div class="card text-center" v-for="producto in getProductosLista"
+        :key="producto.id">
           <img class="card-img-top"
           :src="producto.img"
           :alt="producto.modelo">
@@ -11,7 +12,7 @@
             <p class="card-text text-dark">{{producto.modelo}}</p>
             <p class="card-text text-dark">Weight: {{producto.peso}}</p>
             <p class="card-text text-dark">${{producto.precio}}</p>
-            <button class="btn btn-dark"  @click="AgregarAlCarrito()" >Agregar al carrito</button>
+            <button class="btn btn-dark"  @click="toProductosAlCarrito(producto.id)" >Agregar al carrito</button>
             <span v-if="ventana" class="mt-2">
               <h4 class="text-success text-center mt-2">Producto agregado!</h4>
             </span>
@@ -23,6 +24,7 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
 export default {
     name:"Productos",
     data(){
@@ -30,17 +32,18 @@ export default {
         ventana: false
       }
     },
-    props: {
-        producto: {
-            type: Object,
-            required: true
-        }
+    created(){
+      this.toProductosLista();
+    },
+    mounted(){
+      this.getProductosLista;
+      console.log(this.getProductosLista);
+    },
+    computed: {
+      ...mapGetters(['getProductosLista'])
     },
     methods: {
-       AgregarAlCarrito() {
-            this.$emit("agregar-al-carrito", this.producto.id);
-            this.ventana = true;
-        }
+      ...mapActions(['toProductosLista'])
     }
 
 }
