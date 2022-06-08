@@ -24,7 +24,7 @@ export default new Vuex.Store({
     },
   },
   mutation: {
-    setProductosLista(state, payload) {
+    SET_PRODUCTOS(state, payload) {
       state.productosLista = payload;
     },
     setProductosAlCarrito: (state, productoId) => {
@@ -57,13 +57,13 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    async toProductosLista({ commit }) {
-      let result = null;
-      await apiServices.getProductos();
-      if (result != null) {
-        commit("setProductosLista", result);
-      }
+    toProductosLista: ({ commit }) => {
+      apiServices
+        .getProductos()
+        .then((result) => commit("SET_PRODUCTOS", result))
+        .catch((err) => console.log(err));
     },
+
     toProductosAlCarrito({ commit, productoId }) {
       commit("setProductosAlCarrito", productoId);
     },

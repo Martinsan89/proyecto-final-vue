@@ -12,13 +12,11 @@
       <router-link to="/FormLogin" class="btn btn-success">Registrate</router-link>
     </div>
     <br>
-    <Productos></Productos>
-    <!-- <Productos
-      v-for="producto in productosLista"
+    <Productos
+      v-for="producto in getProductosLista"
       :key="producto.id"
-      :producto="producto"
-       @agregar-al-carrito="AgregarAlNavBar">
-    </Productos> -->
+      :producto="producto">
+    </Productos>
   </div>
 </template>
 
@@ -32,19 +30,19 @@ export default {
   components: {
     Productos, NavBar
   },
-   async created(){
-    this.toProductosLista;
-
+   created(){
+    this.toProductosLista();
   },
   mounted(){
-    this.getProductosLista;
-    this.toSetCarrito;
+    console.log(this.getProductosLista);
+    // this.toSetCarrito;
   },
   computed: {
-    ...mapGetters(['getProductosLista'])
+    ...mapGetters(['getProductosLista']),
+
   },
   methods: {
-    ...mapActions(['ToSetCarrito', 'toProductosLista']),
+    ...mapActions(['toProductosLista']),
   }
 }
 </script>

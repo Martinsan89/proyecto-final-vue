@@ -3,18 +3,12 @@ const apiUrl = "https://628e2cc9a339dfef87a8fd8c.mockapi.io";
 
 const apiServices = {
   getProductos: async () => {
-    await axios
-      .get(`${apiUrl}/api/producto`)
-      .then((response) => {
-        let result = response.data.map((item) => {
-          let { id, marca, modelo, peso, precio, drop, img } = item;
-          return { id, marca, modelo, peso, precio, drop, img };
-        });
-        return result;
-      })
-      .catch((err) => {
-        console.log(`${err}`);
-      });
+    try {
+      const { data } = await axios.get(`${apiUrl}/api/producto`);
+      return data;
+    } catch (err) {
+      console.log(err);
+    }
   },
   getUsers: async () => {
     await axios
