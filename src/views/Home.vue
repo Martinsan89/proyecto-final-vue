@@ -34,7 +34,6 @@ export default {
     this.toProductosLista();
   },
   mounted(){
-    console.log(this.getProductosLista);
     // this.toSetCarrito;
   },
   computed: {
