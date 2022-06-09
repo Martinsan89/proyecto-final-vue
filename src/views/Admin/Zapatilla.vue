@@ -1,6 +1,10 @@
 <template>
   <div>
-    <form class="text-center">
+    <router-link class="btn btn-dark mx-3"
+    to="/Admin"
+    >Volver al Admin</router-link>
+    <h1 class="text-center text-dark mb-5">Ingrese una nueva Zapatilla</h1>
+    <form class="text-center text-dark">
       <div class="form-group row text-center">
         <label  class="col-sm-2 col-form-label">Marca</label>
         <div class="col-sm-10">
@@ -95,15 +99,20 @@ export default {
       }
       await axios.post(`${process.env.VUE_APP_API_URL}/api/producto`, newZapa)
       .then(response => {
+        return response.data
+      })
+      .catch(err => console.log(err));
+
+      if(newZapa !=null){
           this.marca = '',
           this.modelo = '',
           this.peso = '',
           this.precio = '',
           this.drop = '',
           this.img = '',
-          this.stock = ''
-      })
-      .catch(err => console.log(err));
+          this.stock = '',
+          this.$toastr.success('Producto Ingresado!');
+      }
     }
   }
 

@@ -11,37 +11,40 @@ export default {
     getUsers(state) {
       return state.users;
     },
-    getUserLogged: (state) => {
-      return (state.userLogged = JSON.parse(
-        localStorage.getItem(this.storageUserKey)
-      ));
+    getUserLogged(state) {
+      return state.userLogged;
     },
   },
   mutations: {
     setUsers(state, payload) {
-      state.user = payload;
+      state.users = payload;
     },
     setSaveUserLoggedInStorage(state, data) {
       state.userLogged = data;
-      localStorage.setItem(this.storageUserKey, JSON.stringify(data));
+      localStorage.setItem(state.storageUserKey, JSON.stringify(data));
     },
     setDropUser(state) {
       localStorage.removeItem(state.storageUserKey);
     },
+    setUserLogged: (state) => {
+      state.userLogged = JSON.parse(localStorage.getItem(state.storageUserKey));
+    },
   },
   actions: {
-    async toUsers({ commit }) {
-      let result = null;
-      await apiServices.getUsers();
-      if (result != null) {
-        commit("setUsers", result);
-      }
+    toSetUsers: ({ commit }) => {
+      apiServices
+        .getUsers()
+        .then((result) => commit("setUsers", result))
+        .catch((err) => console.log(err));
     },
     toSaveUserLoggedInStorage({ commit }, data) {
       commit("setSaveUserLoggedInStorage", data);
     },
     toDropUser: (context) => {
       context.commit("setDropUser");
+    },
+    toSetUserLogged: (context) => {
+      context.commit("setUserLogged");
     },
   },
 };

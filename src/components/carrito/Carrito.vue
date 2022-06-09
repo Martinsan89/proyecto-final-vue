@@ -33,10 +33,6 @@
         class="btn btn-dark"
         @click.prevent="Comprar"
         >Finalizar compra</button>
-        <!-- <div class="text-center mt-2">
-          <span v-if="compraOk" class="text-success text-center">Compra realizada!</span>
-          <span v-if="compraFail" class="text-danger text-center">Inicia sesion para finalizar la compra</span>
-        </div> -->
     </div>
   </div>
 </template>
@@ -44,15 +40,23 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+const axios = require('axios');
+const apiCall = 'https://628e2cc9a339dfef87a8fd8c.mockapi.io';
 
 export default {
   name: "Carrito",
   created(){
-    // this.toUsers();
+    this.toSetUserLogged();
+    this.toSetCarrito();
+  },
+  mounted(){
+    this.getUserLogged;
     this.getProductosEnCarrito;
   },
   computed: {
     ...mapGetters('carrito',['getProductosEnCarrito']),
+    ...mapGetters('users',['getUserLogged']),
+
     totalQuantity(){
       return this.getProductosEnCarrito.reduce((acc, item) => acc + item.quantity, 0)
     },
@@ -61,34 +65,43 @@ export default {
     }
   },
   methods: {
-    ...mapActions('carrito',['Comprar']),
-     ...mapActions('carrito',['toVaciarProductos']),
-      VaciarCarrito(){
-        this.toVaciarProductos(),
-        localStorage.removeItem('carrito');
-      }
-    // async Comprar(){
-        // const compra = {
-        //   marca: this.productosAlCarrito.marca,
-        //   modelo:this.productosAlCarrito.modelo,
-        //   precio: this.productosAlCarrito.precio,
-        //   quantity: this.totalQuantity,
-        //   total: this.totalFinal
-        // }
-        // await axios.post(`${process.env.VUE_APP_API_URL}/api/corredor/${this.user.id}/compras`, compra)
-        // .then(response => {
-        //   response.data,
-        //   localStorage.removeItem('carrito'),
-        //   this.$emit('vaciar-table', {})
-        //   this.compraOk = true;
+    ...mapActions('carrito',['toVaciarProductos', 'toSetCarrito']),
+    ...mapActions('users',['toSetUserLogged']),
 
-        // })
-        // .catch(error => this.compraFail = true);
-    // },
-    // getUser(){
-    //   this.user = JSON.parse(localStorage.getItem('UsuarioGuardado')) || [];
-    // }
-  },
+    VaciarCarrito(){
+      this.toVaciarProductos(),
+      localStorage.removeItem('carrito');
+    },
+    async Comprar(){
+      if(!this.getUserLogged){
+        return this.$toastr.warning('Inicia sesion para finalizar la compra')
+      }
+      if(this.getProductosEnCarrito != 0 ){
+        const compra = {
+        marca: this.getProductosEnCarrito.marca,
+        modelo:this.getProductosEnCarrito.modelo,
+        precio: this.getProductosEnCarrito.precio,
+        quantity: this.totalQuantity,
+        total: this.totalFinal
+        }
+
+        await axios.post(`${apiCall}/api/corredor/${this.getUserLogged.id}/compras`, compra)
+        .then(response => {
+        response.data,
+        this.$toastr.success('Compra realizada!');
+        })
+        .catch(err => console.log(err));
+
+        if(compra){
+        localStorage.removeItem('carrito');
+        this.toSetCarrito();
+        this.getProductosEnCarrito;
+        }
+      } else {
+        return this.$toastr.warning('Agrega un producto al carrito')
+      }
+    }
+  }
 }
 </script>
 

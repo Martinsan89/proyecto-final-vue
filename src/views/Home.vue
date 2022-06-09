@@ -1,13 +1,7 @@
 <template>
   <div class="home">
-    <!-- <NavBar
-    :productosNavBar="productosAlCarrito"
-    @vaciar-productos="vaciarProductos"
-    ></NavBar> -->
     <NavBar></NavBar>
-    <div class="text-end mx-4">
-      <!-- <router-link to="/Admin"
-      class="btn btn-success">Admin</router-link> -->
+    <div class="text-center mx-4">
       <router-link to="/UserLogin" class="btn btn-success">Login</router-link>
       <router-link to="/FormLogin" class="btn btn-success">Registrate</router-link>
     </div>
@@ -34,14 +28,14 @@ export default {
     this.toProductosLista();
   },
   mounted(){
-    // this.toSetCarrito;
+    this.toSetCarrito();
   },
   computed: {
-    ...mapGetters(['getProductosLista']),
-
+    ...mapGetters(['getProductosLista'])
   },
   methods: {
     ...mapActions(['toProductosLista']),
+    ...mapActions('carrito',['toSetCarrito']),
   }
 }
 </script>
