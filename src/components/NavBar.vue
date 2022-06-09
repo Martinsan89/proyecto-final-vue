@@ -3,7 +3,7 @@
     <nav class="navbar navbar-expand-lg navbar-light navbar-color">
       <div class="container-fluid">
         <router-link to="/" class="navbar-brand"><h1>LoRun</h1></router-link>
-        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#carritoModal"><span>{{getProductosAlCarritoLength}}</span></button>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#carritoModal"><span>{{getProductosEnCarritoLength}}</span></button>
         <!-- Modal -->
         <div class="modal fade" id="carritoModal" tabindex="-1" role="dialog" aria-labelledby="carritoModalTitulo" aria-hidden="true">
           <div class="modal-dialog" role="document">
@@ -15,12 +15,6 @@
                 </button>
               </div>
               <div class="modal-body">
-                <button class="btn btn-danger" @click.prevent="toVaciarCarrito">Vaciar Carrito</button>
-                <!-- <Carrito
-                :productosAlCarrito="productosNavBar"
-                @vaciar-table='VaciarTable'
-                >
-                </Carrito> -->
                 <Carrito />
               </div>
             </div>
@@ -33,36 +27,21 @@
 
 <script>
 import Carrito from '../components/carrito/Carrito.vue';
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters, } from 'vuex';
 
 export default {
   name: "NavBar",
   components: {
     Carrito
   },
-  // props:{
-  //   productosNavBar: {
-  //     type: Array,
-  //   }
-  // },
   mounted(){
-    this.getProductosAlCarritoLength;
+    this.getProductosEnCarritoLength;
   },
   methods: {
-    // VaciarCarrito(){
-    //   localStorage.removeItem('carrito');
-    //   this.$emit('vaciar-productos', {});
-    // },
-    // VaciarTable(){
-    //   this.$emit('reset-table', {});
-    // },
-    ...mapActions(['toVaciarProductos'])
+
   },
   computed:{
-    // productosCounter(){
-    //   return this.productosNavBar.length;
-    // },
-    ...mapGetters(['getProductosAlCarritoLength'])
+    ...mapGetters('carrito',['getProductosEnCarritoLength'])
 
   },
 }

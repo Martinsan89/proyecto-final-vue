@@ -11,7 +11,7 @@
             <p class="card-text text-dark">{{producto.modelo}}</p>
             <p class="card-text text-dark">Weight: {{producto.peso}}</p>
             <p class="card-text text-dark">${{producto.precio}}</p>
-            <!-- <button class="btn btn-dark"  @click="toProductosAlCarrito(producto.id)" >Agregar al carrito</button> -->
+            <button class="btn btn-dark"  @click="toProductosEnCarrito(producto)" >Agregar al carrito</button>
             <!-- <span v-if="ventana" class="mt-2">
               <h4 class="text-success text-center mt-2">Producto agregado!</h4>
             </span> -->
@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 export default {
   name:"Productos",
   props: {
@@ -30,6 +31,9 @@ export default {
       type: Object,
       required: true
     },
+  },
+  methods: {
+    ...mapActions('carrito',['toProductosEnCarrito'])
   }
 
 

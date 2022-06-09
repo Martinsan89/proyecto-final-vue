@@ -1,5 +1,6 @@
 <template>
   <div>
+      <button class="btn btn-danger" @click.prevent="VaciarCarrito">Vaciar Carrito</button>
     <table class="table table-striped table-bordered">
         <thead class="text-dark">
             <tr>
@@ -10,7 +11,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr class="producto" v-for="producto in getProductosAlCarrito" :key="producto.id">
+            <tr class="producto" v-for="producto in getProductosEnCarrito" :key="producto.id">
                <th class="text-dark" scope="col" colspan="10">{{producto.marca}} {{producto.modelo}}</th>
                 <th class="text-dark" scope="col" colspan="1">
                   {{producto.quantity}}
@@ -27,7 +28,7 @@
             <td class="text-dark" scope="col"><h5>Precio Total: ${{totalFinal}}</h5></td>
         </tfoot>
     </table>
-    <div v-if="getProductosAlCarrito" class="btnCompra text-center">
+    <div v-if="getProductosEnCarrito" class="btnCompra text-center">
         <button
         class="btn btn-dark"
         @click.prevent="Comprar"
@@ -46,40 +47,26 @@ import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: "Carrito",
-  // props: {
-  //   productosAlCarrito: {
-  //     type: Array
-  //   }
-  // },
-  // data(){
-  //   return{
-  //     // user: [],
-  //     compraOk: false,
-  //     compraFail: false
-  //   }
-  // },
-  mounted(){
+  created(){
     // this.toUsers();
-    this.getProductosAlCarrito;
-    // this.compraFail = false;
-    // this.compraOk = false;
+    this.getProductosEnCarrito;
   },
   computed: {
-    ...mapGetters(['getProductosAlCarrito']),
+    ...mapGetters('carrito',['getProductosEnCarrito']),
     totalQuantity(){
-      return this.getProductosAlCarrito.reduce((acc, item) => acc + item.quantity, 0)
+      return this.getProductosEnCarrito.reduce((acc, item) => acc + item.quantity, 0)
     },
     totalFinal(){
-      return this.getProductosAlCarrito.reduce((acc, item) => acc + parseInt(item.total), 0)
+      return this.getProductosEnCarrito.reduce((acc, item) => acc + parseInt(item.total), 0)
     }
   },
   methods: {
     ...mapActions('carrito',['Comprar']),
-    DropCarrito(){
-      if(this.Comprar != null){
-        localStorage.removeItem('carrito')
+     ...mapActions('carrito',['toVaciarProductos']),
+      VaciarCarrito(){
+        this.toVaciarProductos(),
+        localStorage.removeItem('carrito');
       }
-    }
     // async Comprar(){
         // const compra = {
         //   marca: this.productosAlCarrito.marca,
