@@ -35,16 +35,6 @@
                 </div>
               </div>
             </form>
-            <!-- <div v-if="usuario.admin" class="form-row">
-              <router-link class="col-lg-7" to="/Admin">
-              </router-link>
-            </div>
-            <div v-if="usuario.cliente" class="form-row">
-              <router-link class="col-lg-7" to="/">
-              <button type="button"
-                class="btn1 mt-3 mb-5"
-              >ir a Home</button></router-link>
-            </div> -->
           </div>
         </div>
       </div>
@@ -53,8 +43,8 @@
 </template>
 
 <script>
-
-const axios = require('axios');
+// const axios = require('axios');
+import { mapActions, mapGetters} from 'vuex';
 
 export default {
     name: 'UserLogin',
@@ -64,25 +54,22 @@ export default {
           email:'',
           pass: ''
         },
-        corredor: [],
+        // corredor: [],
         error: false,
-        userLogged: null
+        // userLogged: null
       }
     },
-    mounted() {
-      this.getCorredorData();
+    created(){
+      this.toSetUsers();
+    },
+    // mounted() {
+    //   console.log(this.getUsers);
+    // },
+    computed: {
+      ...mapGetters('users',['getUsers', 'getUserLogged'])
     },
     methods: {
-      async getCorredorData(){
-        await axios.get(`${process.env.VUE_APP_API_URL}/api/corredor`)
-        .then (response => {
-          return response.data;
-        })
-        .then(data => {
-          this.corredor = data;
-        })
-        .catch(err => (console.log(`${err}`)));
-      },
+      ...mapActions('users',['toSetUsers', 'toSaveUserLoggedInStorage']),
       // validarEmail(){
       //   if(this.corredor.find(user => user.email === this.form.email)) {
       //     this.emailOk = true;
@@ -99,18 +86,17 @@ export default {
       // },
       validarDatos(){
         let datosValidos = false;
-        this.corredor.find( element => {
+        this.getUsers.find( element => {
           if(element.email == this.form.email && element.pass == this.form.pass){
             datosValidos = true;
-            this.userLogged = element;
-            this.SaveUserLoggedInStorage(element);
-            this.$emit('logged-in', element);
+            // this.getUserLogged = element;
+            this.toSaveUserLoggedInStorage(element);
           }else {
-            this.datosValidos = false;
+            datosValidos = false;
           }
         });
-        if (this.userLogged != null){
-          if (this.userLogged?.isAdmin == false) {
+        if (this.getUserLogged != null){
+          if (this.getUserLogged?.isAdmin == false) {
               this.$router.push({name: 'UsuarioView'});
             }else {
               this.$router.push({name: 'Admin'});

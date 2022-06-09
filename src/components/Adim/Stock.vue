@@ -13,7 +13,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="producto in productoLista" :key="producto.id">
+        <tr v-for="producto in getProductosLista" :key="producto.id">
         <td class="col-3">
           {{producto.marca}}
           <br>
@@ -36,9 +36,11 @@
           class="btn btn-primary">Actualizar</router-link>
         </td>
         <td class="col-2">
-          <button
-          @click.prevent="Delete"
-          class="btn btn-danger">Eliminar</button>
+          <router-link
+          :to="{
+            name: 'Delete',
+            params: { id: producto.id, producto } }"
+          class="btn btn-danger">Eliminar</router-link>
         </td>
          </tr>
       </tbody>
@@ -47,27 +49,19 @@
 </template>
 
 <script>
-const axios = require('axios');
+
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: "Stock",
-
-  // data(){
-  //   return {
-  //     actualizar: false
-  //   }
-  // },
-  props: {
-    productoLista: [],
+  mounted(){
+    this.toProductosLista();
+  },
+  computed: {
+    ...mapGetters(['getProductosLista'])
   },
   methods: {
-    async Delete(id = this.producto.id){
-      await axios.delete(`${process.env.VUE_APP_API_URL}/api/producto/${id}`)
-      .then(response => {
-        console.log('registro eliminado', response.data);
-      })
-      .catch(err => console.log(err));
-    }
+    ...mapActions(['toProductosLista']),
   }
 }
 </script>

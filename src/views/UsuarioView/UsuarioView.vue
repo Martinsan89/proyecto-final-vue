@@ -1,29 +1,22 @@
 <template>
   <div class="userview">
-    <!-- <NavBar
-    :productosNavBar="productosAlCarrito"
-    @reset-table="vaciarTable"
-    >
-    </NavBar> -->
     <NavBar></NavBar>
-    <div class="text-end">
-      <button class="btn btn-warning mx-3"
-      @click="toDropUser"
+    <div class="text-center mb-3">
+      <button class="btn btn-warning mx-5"
+      @click="DropUser"
       > Log out</button>
       <button @click="verCompras"
       type="button"
       class="btn btn-secondary text-center"
       >Ver Compras</button>
     </div>
-    <h3 class="text-center text-dark">Hola {{user.nombre}}!</h3>
+    <h3 class="text-center text-dark">Hola {{getUserLogged.nombre}}!</h3>
     <br>
-    <Productos></Productos>
-    <!-- <Productos
-      v-for="producto in productosLista"
+    <Productos
+      v-for="producto in getProductosLista"
       :key="producto.id"
-      :producto="producto"
-       @agregar-al-carrito="AgregarAlNavBar">
-    </Productos> -->
+      :producto="producto">
+    </Productos>
   </div>
 </template>
 
@@ -32,77 +25,37 @@ import NavBar from '../../components/NavBar.vue'
 import Productos from '../../components/Productos.vue';
 import { mapActions, mapGetters } from 'vuex';
 
-// const axios = require('axios');
 export default {
-  name: 'Home',
+  name: 'UsuarioView',
   components: {
     Productos, NavBar
   },
-  // data: () => ({
-  //   productosLista: [],
-  //   productosAlCarrito:[],
-  //   user: []
-  // }),
-   mounted(){
-    this.getProductos();
-    this.getCarrito();
-    this.getUserLogged();
+  created(){
+    this.toProductosLista();
+    this.toSetUserLogged();
+    this.toSetCarrito();
   },
-    computed: {
-    ...mapGetters(['getProductosLista', 'getUserLogged'])
+   mounted(){
+    this.getProductos;
+    this.getCarrito;
+    this.getUserLogged;
+  },
+  computed: {
+    ...mapGetters(['getProductosLista']),
+    ...mapGetters('users',['getUserLogged'])
   },
   methods: {
-    ...mapActions(['toSetCarrito', 'vaciarProductos', 'toDropUser']),
+    ...mapActions(['toProductosLista']),
+    ...mapActions('carrito',['toSetCarrito']),
+    ...mapActions('users',['toSetUserLogged']),
+
     verCompras() {
       this.$router.push('/UsuarioCompras');
     },
-
-    // AgregarAlNavBar(productoId){
-    //   const prodEnCarrito = this.productosAlCarrito.find(product => product.id === productoId);
-
-    //   if(prodEnCarrito){
-    //       prodEnCarrito.quantity++;
-    //       prodEnCarrito.total = prodEnCarrito.quantity * prodEnCarrito.precio;
-    //   } else {
-    //       const findProduct = this.productosLista.find(product => product.id === productoId);
-    //       const nuevoProd = {...findProduct};
-
-    //       this.productosAlCarrito.push({
-    //         ...nuevoProd,
-    //         quantity: 1,
-    //         total: nuevoProd.precio
-    //       });
-    //   }
-    //   localStorage.setItem('carrito', JSON.stringify(this.productosAlCarrito));
-    // },
-    // vaciarProductos(){
-    //   this.productosAlCarrito = [];
-    // },
-    // vaciarTable(){
-    //   this.productosAlCarrito = [];
-    // },
-    // async getProductos(){
-    //   await axios.get(`${process.env.VUE_APP_API_URL}/api/producto`)
-    //   .then(response => {
-    //     return response.data;
-    //   })
-    //   .then(data => {
-    //     this.productosLista = data;
-    //   })
-    //   .catch(err => {console.log(`${err}`)});
-    //   // .finally(() => {console.log("finalizo la peticion de datos")})
-    // },
-    //   getCarrito(){
-    //   this.productosAlCarrito = JSON.parse(localStorage.getItem('carrito')) || [];
-    // getUser(){
-    //   this.user = JSON.parse(localStorage.getItem('UsuarioGuardado')) || [];
-    // },
-    // dropUser(){
-    //   localStorage.removeItem('UsuarioGuardado');
-    //   this.$router.push('/');
-    // },
-
-
+    DropUser(){
+      this.$router.push("/");
+      localStorage.clear();
+    }
   }
 }
 </script>

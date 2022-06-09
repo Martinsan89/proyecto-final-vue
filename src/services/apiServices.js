@@ -12,23 +12,11 @@ const apiServices = {
   },
   getUsers: async () => {
     try {
-      const { data } = await axios.get(`${apiUrl}/corredores`);
+      const { data } = await axios.get(`${apiUrl}/corredor`);
       return data;
     } catch (err) {
       console.log(err);
     }
-  },
-  setCompra: async () => {
-    await axios
-      .post(
-        `${process.env.VUE_APP_API_URL}/api/corredor/${this.user.id}/compras`,
-        compra
-      )
-      .then((response) => {
-        let result = response.data;
-        return result;
-      })
-      .catch((err) => console.log(err));
   },
 };
 

@@ -26,7 +26,9 @@ export default new Vuex.Store({
       apiServices
         .getProductos()
         .then((result) => commit("SET_PRODUCTOS", result))
-        .catch((err) => console.log(err));
+        .catch((err) =>
+          this.$toastr.danger("Inicia sesion o agrega un producto al carrito")
+        );
     },
   },
   modules: {

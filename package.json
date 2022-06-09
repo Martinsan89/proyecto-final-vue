@@ -13,9 +13,11 @@
     "core-js": "^3.8.3",
     "jquery": "^3.6.0",
     "popper.js": "^1.16.1",
+    "toastr": "^2.1.4",
     "vue": "^2.6.14",
     "vue-final-modal": "^3.4.4",
     "vue-router": "^3.2.0",
+    "vue-toastr-2": "^0.0.10",
     "vuex": "^3.6.2"
   },
   "devDependencies": {

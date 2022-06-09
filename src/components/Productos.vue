@@ -2,7 +2,7 @@
   <div class="container">
     <div class="col-4">
       <div class="row">
-        <div class="card text-center">
+        <div class="card">
           <img class="card-img-top"
           :src="producto.img"
           :alt="producto.modelo">
@@ -11,7 +11,7 @@
             <p class="card-text text-dark">{{producto.modelo}}</p>
             <p class="card-text text-dark">Weight: {{producto.peso}}</p>
             <p class="card-text text-dark">${{producto.precio}}</p>
-            <button class="btn btn-dark"  @click="toProductosEnCarrito(producto)" >Agregar al carrito</button>
+            <button class="btn btn-dark"  @click="ProductoAlCarrito(producto)" >Agregar al carrito</button>
             <!-- <span v-if="ventana" class="mt-2">
               <h4 class="text-success text-center mt-2">Producto agregado!</h4>
             </span> -->
@@ -33,7 +33,11 @@ export default {
     },
   },
   methods: {
-    ...mapActions('carrito',['toProductosEnCarrito'])
+    ...mapActions('carrito',['toProductosEnCarrito']),
+    ProductoAlCarrito(producto){
+      this.toProductosEnCarrito(producto);
+      this.$toastr.success('Producto agregado!');
+    }
   }
 
 

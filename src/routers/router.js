@@ -46,6 +46,18 @@ const routes = [
     component: () => import("../views/Admin/Update.vue"),
     props: true,
   },
+  {
+    path: "/Zapatilla",
+    name: "Zapatilla",
+    component: () => import("../views/Admin/Zapatilla.vue"),
+    props: true,
+  },
+  {
+    path: "/Delete",
+    name: "Delete",
+    component: () => import("../views/Admin/Delete.vue"),
+    props: true,
+  },
 ];
 
 const router = new VueRouter({
