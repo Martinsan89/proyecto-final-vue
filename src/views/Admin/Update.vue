@@ -15,18 +15,18 @@
         <tr>
           <td>{{this.$route.params.producto.marca}} {{this.$route.params.producto.modelo}}</td>
           <td>
-            <input type="number" class="stock" v-model="stock">
+            <input type="number" class="stock" v-model="stock" placeholder="nuevo stock">
           </td>
           <td>
             <input type="number" class="precio"
-            v-model="precio">
+            v-model="precio" placeholder="nuevo precio">
           </td>
           <td>
             <button @click.prevent="Confirmar" class="btn btn-warning">Confirmar</button>
           </td>
           <td>
             <router-link to="/Admin"
-            class="btn btn-success">Stock
+            class="btn btn-success">Admin
             </router-link>
           </td>
         </tr>
@@ -40,13 +40,12 @@
 </template>
 
 <script>
-const axios = require('axios');
 
 export default {
   name: 'Update',
   data: () => ({
-    stock: 0,
-    precio: 0,
+    stock: '',
+    precio: '',
     ventana: false
   }),
   methods: {
@@ -55,11 +54,12 @@ export default {
         stock: this.stock,
         precio: this.precio
       }
-      await axios.put(`${process.env.VUE_APP_API_URL}/api/producto/${this.$route.params.producto.id}`, zapaUpdate)
+      await this.$http.put(`${process.env.VUE_APP_API_URL}/api/producto/${this.$route.params.producto.id}`, zapaUpdate)
       .then(response => {
-        this.ventana = true;
+        response.data
       })
       .catch(err => console.log(err));
+      this.ventana = true;
     }
   }
 

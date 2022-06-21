@@ -21,6 +21,7 @@ export default {
     },
     setSaveUserLoggedInStorage(state, data) {
       state.userLogged = data;
+      delete state.userLogged.pass;
       localStorage.setItem(state.storageUserKey, JSON.stringify(data));
     },
     setDropUser(state) {

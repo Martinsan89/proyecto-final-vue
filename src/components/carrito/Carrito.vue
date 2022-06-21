@@ -1,21 +1,26 @@
 <template>
   <div>
       <button class="btn btn-danger" @click.prevent="VaciarCarrito">Vaciar Carrito</button>
+      <p>Para eliminar el producto lleve el contador a 0</p>
     <table class="table table-striped table-bordered">
         <thead class="text-dark">
             <tr>
                 <th scope="col" colspan="10">Productos</th>
                 <th scope="col" colspan="1">Cantidad</th>
-                <th scope="col">Precio x Unidad</th>
-                <th scope="col">Total</th>
+                <th scope="col">Stock disponible </th>
+                <th scope="col">Precio x Unidad $</th>
+                <th scope="col">Total $</th>
             </tr>
         </thead>
         <tbody>
             <tr class="producto" v-for="producto in getProductosEnCarrito" :key="producto.id">
                <th class="text-dark" scope="col" colspan="10">{{producto.marca}} {{producto.modelo}}</th>
                 <th class="text-dark" scope="col" colspan="1">
+                  <button @click="Restar(producto)">-</button>
                   {{producto.quantity}}
+                  <button @click="Sumar(producto)">+</button>
                 </th>
+                <th class="text-dark" scope="col">{{producto.stock}}</th>
                 <th class="text-dark" scope="col">{{producto.precio}}</th>
                 <th class="text-dark" scope="col">{{producto.total}}</th>
             </tr>
@@ -24,6 +29,7 @@
         <tfoot>
             <td scope="col" colspan="10"></td>
             <td class="text-dark" scope="col" ><h4>Cantidad total: {{totalQuantity}}</h4></td>
+            <td scope="col" ></td>
             <td scope="col" ></td>
             <td class="text-dark" scope="col"><h5>Precio Total: ${{totalFinal}}</h5></td>
         </tfoot>
@@ -40,8 +46,6 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-const axios = require('axios');
-const apiCall = 'https://628e2cc9a339dfef87a8fd8c.mockapi.io';
 
 export default {
   name: "Carrito",
@@ -54,7 +58,7 @@ export default {
     this.getProductosEnCarrito;
   },
   computed: {
-    ...mapGetters('carrito',['getProductosEnCarrito']),
+    ...mapGetters('carrito',['getProductosEnCarrito', 'getProdContador']),
     ...mapGetters('users',['getUserLogged']),
 
     totalQuantity(){
@@ -62,44 +66,77 @@ export default {
     },
     totalFinal(){
       return this.getProductosEnCarrito.reduce((acc, item) => acc + parseInt(item.total), 0)
+    },
+    validarStock(){
+       for (const value of Object.values(this.getProductosEnCarrito)) {
+        return (value.stock - value.quantity);
+      }
+    },
+    async stockUpdate(){
+      for (const value of Object.values(this.getProductosEnCarrito)) {
+        let  idStockUpdate = value.id;
+        let  resultStockUpdate = {
+          stock: (value.stock - value.quantity)
+        };
+        await this.$http.put(`${process.env.VUE_APP_API_URL}/api/producto/${idStockUpdate}`, resultStockUpdate)
+        .then(response => {
+          return response.data
+        })
+        .catch(err => console.log(err));
+      }
     }
   },
   methods: {
-    ...mapActions('carrito',['toVaciarProductos', 'toSetCarrito']),
+    ...mapActions(['toSetStock']),
+    ...mapActions('carrito',['toVaciarProductos', 'toSetCarrito', 'toSetSumar', 'toSetRestar']),
     ...mapActions('users',['toSetUserLogged']),
-
     VaciarCarrito(){
       this.toVaciarProductos(),
       localStorage.removeItem('carrito');
     },
     async Comprar(){
+      this.validarStock;
       if(!this.getUserLogged){
         return this.$toastr.warning('Inicia sesion para finalizar la compra')
       }
+      if(this.validarStock < 0){
+        return this.$toastr.warning('Verifique que haya stock disponible');
+      }
       if(this.getProductosEnCarrito != 0 ){
+        let prodCompra = this.getProductosEnCarrito.map(item => {
+          let { id, marca, modelo, precio, quantity, stock } = item;
+          return { id, marca, modelo, precio, quantity, stock }
+        })
         const compra = {
-        marca: this.getProductosEnCarrito.marca,
-        modelo:this.getProductosEnCarrito.modelo,
-        precio: this.getProductosEnCarrito.precio,
+        productos: prodCompra,
         quantity: this.totalQuantity,
-        total: this.totalFinal
+        total: this.totalFinal,
         }
 
-        await axios.post(`${apiCall}/api/corredor/${this.getUserLogged.id}/compras`, compra)
+        await this.$http.post(`${process.env.VUE_APP_API_URL}/api/corredor/${this.getUserLogged.id}/compras`, compra)
         .then(response => {
-        response.data,
-        this.$toastr.success('Compra realizada!');
+        response.data
         })
         .catch(err => console.log(err));
 
+        this.$toastr.success('Compra realizada!');
+
         if(compra){
-        localStorage.removeItem('carrito');
-        this.toSetCarrito();
-        this.getProductosEnCarrito;
+          let stock = this.validarStock;
+          this.toSetStock({prodCompra, stock});
+          this.stockUpdate;
+          localStorage.removeItem('carrito');
+          this.$router.push({name: 'UsuarioCompras'});
         }
       } else {
         return this.$toastr.warning('Agrega un producto al carrito')
       }
+    },
+    Sumar(producto) {
+      this.toSetSumar(producto);
+    },
+    Restar(producto){
+      this.toSetRestar(producto);
     }
   }
 }

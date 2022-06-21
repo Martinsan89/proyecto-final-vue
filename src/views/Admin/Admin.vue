@@ -6,29 +6,24 @@
     <div class="titulo">
       <h1 class="text-center">Cuenta de administracion de productos</h1>
       <div class="btns text-center">
-        <button class="btn btn-primary" @click.prevent="stock=true, zapatilla = false">
-        <h3>Stock</h3></button>
-        <router-link class="btn btn-info"
+        <button class="btn btn-primary p-3" @click.prevent="stock=true, zapatilla = false">
+        <h3>Actualizar</h3></button>
+        <router-link class="btn btn-info p-3"
         to="/Zapatilla">
-        <h3>Zapatilla</h3></router-link>
+        <h3>Agregar</h3></router-link>
+        <router-link to="/DataUsers" class="btn btn-success p-3"><h3>
+          Ver usuarios </h3></router-link>
       </div>
     </div>
     <div v-if="stock">
-      <Stock
-      :productoLista="productoLista"
-      >
-      </Stock>
+      <Stock />
     </div>
   </div>
 </template>
 
 <script>
 import Stock from '../../components/Adim/Stock.vue';
-
-
-const apiCall = 'https://628e2cc9a339dfef87a8fd8c.mockapi.io';
-const axios = require('axios');
-
+import {mapGetters} from 'vuex';
 
 export default {
   name: "Admin",
@@ -38,21 +33,28 @@ export default {
   data: () => ({
     stock: false,
   }),
+  created(){
+    this.getUserLogged;
+  },
   mounted(){
-    this.getProductos(),
-    this.RedirectToLoginIfLoggedUserIsNotAdmin;
+    if(!this.getUserLogged){
+      this.$router.push('/')
+    }
+  },
+  computed: {
+    ...mapGetters('users',['getUserLogged'])
   },
   methods: {
-    async getProductos(){
-      await axios.get(`${apiCall}/api/producto`)
-      .then(response => {
-        return response.data;
-      })
-      .then(data => {
-        this.productoLista = data;
-      })
-      .catch(err => {console.log(`${err}`)});
-    },
+    // async getProductos(){
+    //   await this.$http.get(`${process.env.VUE_APP_API_URL}/api/producto`)
+    //   .then(response => {
+    //     return response.data;
+    //   })
+    //   .then(data => {
+    //     this.productoLista = data;
+    //   })
+    //   .catch(err => {console.log(`${err}`)});
+    // },
     Volver() {
       localStorage.clear();
       this.$router.push('/');
@@ -61,10 +63,10 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 body {
   background-color: grey;
-  color: bisque;
+  color: #e69c40;
 }
 .titulo {
   margin: auto;

@@ -1,40 +1,32 @@
 <template>
   <div class="home">
-    <NavBar></NavBar>
-    <div class="text-center mx-4">
-      <router-link to="/UserLogin" class="btn btn-success">Login</router-link>
-      <router-link to="/FormLogin" class="btn btn-success">Registrate</router-link>
+    <div class="nav">
+      <NavBar />
     </div>
-    <br>
-    <Productos
-      v-for="producto in getProductosLista"
-      :key="producto.id"
-      :producto="producto">
-    </Productos>
+    <div class="login">
+      <UserLogin />
+    </div>
+    <div class="productos">
+      <Productos />
+    </div>
   </div>
 </template>
 
 <script>
-import NavBar from '../components/NavBar.vue'
+import NavBar from '../components/NavBar.vue';
+import UserLogin from '@/components/Login/UserLogin.vue';
 import Productos from '../components/Productos.vue';
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions } from 'vuex';
 
 export default {
   name: 'Home',
   components: {
-    Productos, NavBar
-  },
-   created(){
-    this.toProductosLista();
+    Productos, NavBar, UserLogin
   },
   mounted(){
     this.toSetCarrito();
   },
-  computed: {
-    ...mapGetters(['getProductosLista'])
-  },
   methods: {
-    ...mapActions(['toProductosLista']),
     ...mapActions('carrito',['toSetCarrito']),
   }
 }
@@ -42,7 +34,30 @@ export default {
 
 <style scoped>
 .home {
-  background-color: grey;
+  position: relative;
+  height: max-content;
+  background-color: gray;
 }
+.nav {
+  position: absolute;
+  top: 1rem;
+  left: 2rem;
+}
+.NavBar {
+  width: 10%;
+}
+.login {
+  width: 60%;
+}
+.UserLogin {
+  position: absolute;
+  right: 0rem;
+}
+.productos {
+  position: absolute;
+  top: 25rem;
+  right: 8rem;
+}
+
 
 </style>
