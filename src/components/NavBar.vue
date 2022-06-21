@@ -52,6 +52,7 @@ export default {
 .navbar {
     background-color: burlywood;
     margin-bottom: 2rem;
+    width: 15rem;
 }
 
 </style>

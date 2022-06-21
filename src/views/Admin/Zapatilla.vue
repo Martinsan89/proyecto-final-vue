@@ -5,76 +5,60 @@
     >Volver al Admin</router-link>
     <h1 class="text-center text-dark mb-5">Ingrese una nueva Zapatilla</h1>
     <form class="text-center text-dark">
-      <div class="form-group row text-center">
-        <label  class="col-sm-2 col-form-label">Marca</label>
-        <div class="col-sm-10">
+      <div class="form-group row col-12">
+        <label class="col-4">Marca</label>
           <input type="text"
-          class="form-control"
+          class="form-control col-6"
           v-model="marca">
-        </div>
       </div>
-      <div class="form-group row">
-        <label  class="col-sm-2 col-form-label">Modelo</label>
-        <div class="col-sm-10">
+      <div class="form-group row col-12">
+        <label class="col-4">Modelo</label>
           <input type="text"
-          class="form-control"
+          class="form-control col-6"
           v-model="modelo">
-        </div>
       </div>
-      <div class="form-group row">
-        <label  class="col-sm-2 col-form-label">Peso</label>
-        <div class="col-sm-10">
+      <div class="form-group row col-12">
+        <label class="col-4 ">Peso</label>
           <input type="text"
-          class="form-control"
+          class="form-control col-6"
           v-model="peso">
-        </div>
       </div>
-      <div class="form-group row">
-        <label  class="col-sm-2 col-form-label">Precio</label>
-        <div class="col-sm-10">
+      <div class="form-group row col-12">
+        <label class="col-4">Precio</label>
           <input type="number"
-          class="form-control"
+          class="form-control col-6"
           v-model="precio">
-        </div>
       </div>
-      <div class="form-group row">
-        <label  class="col-sm-2 col-form-label">Drop</label>
-        <div class="col-sm-10">
+      <div class="form-group row col-12">
+        <label class="col-4">Drop</label>
           <input type="text"
-          class="form-control"
+          class="form-control col-6"
           v-model="drop">
-        </div>
       </div>
-      <div class="form-group row">
-        <label  class="col-sm-2 col-form-label">Img</label>
-        <div class="col-sm-10">
+      <div class="form-group row col-12">
+        <label class="col-4">Img</label>
           <input type="text"
-          class="form-control"
+          class="form-control col-6"
           v-model="img">
-        </div>
       </div>
-      <div class="form-group row">
-        <label  class="col-sm-2 col-form-label">Stock</label>
-        <div class="col-sm-10">
+      <div class="form-group row col-12">
+        <label class="col-4">Stock</label>
           <input type="number"
-          class="form-control"
+          class="form-control col-6"
           v-model="stock">
-        </div>
       </div>
-      <div class="form-group row">
+      <div class="form-group row mt-4">
         <div class="col-sm-10">
           <button  type="submit"
           @click.prevent="CrearZapatilla"
           class="btn btn-primary">Crear</button>
         </div>
       </div>
-  </form>
-</div>
+    </form>
+  </div>
 </template>
 
 <script>
-const axios = require('axios');
-
 export default {
   name: 'Zapatilla',
   data: () => ({
@@ -97,7 +81,7 @@ export default {
         img: this.img,
         stock: this.stock,
       }
-      await axios.post(`${process.env.VUE_APP_API_URL}/api/producto`, newZapa)
+      await this.$http.post(`${process.env.VUE_APP_API_URL}/api/producto`, newZapa)
       .then(response => {
         return response.data
       })

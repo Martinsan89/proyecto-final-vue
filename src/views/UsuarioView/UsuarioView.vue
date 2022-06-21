@@ -5,18 +5,15 @@
       <button class="btn btn-warning mx-5"
       @click="DropUser"
       > Log out</button>
-      <button @click="verCompras"
+      <button
+      @click="verCompras"
       type="button"
       class="btn btn-secondary text-center"
       >Ver Compras</button>
     </div>
     <h3 class="text-center text-dark">Hola {{getUserLogged.nombre}}!</h3>
     <br>
-    <Productos
-      v-for="producto in getProductosLista"
-      :key="producto.id"
-      :producto="producto">
-    </Productos>
+    <Productos />
   </div>
 </template>
 
@@ -31,21 +28,17 @@ export default {
     Productos, NavBar
   },
   created(){
-    this.toProductosLista();
     this.toSetUserLogged();
     this.toSetCarrito();
   },
    mounted(){
-    this.getProductos;
     this.getCarrito;
     this.getUserLogged;
   },
   computed: {
-    ...mapGetters(['getProductosLista']),
     ...mapGetters('users',['getUserLogged'])
   },
   methods: {
-    ...mapActions(['toProductosLista']),
     ...mapActions('carrito',['toSetCarrito']),
     ...mapActions('users',['toSetUserLogged']),
 
@@ -62,6 +55,6 @@ export default {
 
 <style scoped>
 .userview {
-  background-color: #18b466;
+  background-color: #8eb5a1;
 }
 </style>

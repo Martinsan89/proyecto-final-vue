@@ -10,18 +10,12 @@ const routes = [
     component: () => import("../views/Home.vue"),
     props: true,
   },
-  {
-    path: "/UserLogin",
-    name: "UserLogin",
-    component: () => import("../views/Login/UserLogin.vue"),
-    props: true,
-  },
-  {
-    path: "/FormLogin",
-    name: "FormLogin",
-    component: () => import("../views/Login/FormLogin.vue"),
-    props: true,
-  },
+  // {
+  //   path: "/FormLogin",
+  //   name: "FormLogin",
+  //   component: () => import("../components/Login/FormLogin.vue"),
+  //   props: true,
+  // },
   {
     path: "/UsuarioView",
     name: "UsuarioView",
@@ -38,6 +32,12 @@ const routes = [
     path: "/Admin",
     name: "Admin",
     component: () => import("../views/Admin/Admin.vue"),
+    props: true,
+  },
+  {
+    path: "/DataUsers",
+    name: "DataUsers",
+    component: () => import("../views/Admin/DataUsers.vue"),
     props: true,
   },
   {
@@ -61,7 +61,7 @@ const routes = [
 ];
 
 const router = new VueRouter({
-  mode: "history",
+  mode: "hash",
   base: process.env.BASE_URL,
   routes,
 });

@@ -6,32 +6,51 @@
           <div class="col-lg-5">
             <img src="@/assets/logoRun.jpeg" class="img-fluid" alt="Logo login">
           </div>
-          <div class="col-lg-7 px-5 pt-5 text-dark">
-            <h1 class="font-weight-bold py-3">Lo Run</h1>
-            <h4>Inicia Sesion con tu cuenta Lo Run</h4>
+          <div class="col-lg-7 text-dark loginForm">
+            <h1 class="font-weight-bold ">Lo Run</h1>
+            <h4>Inicia Sesion</h4>
             <form>
               <div class="form-row">
                 <div class="col-lg-7">
-                  <input type="email" placeholder="Email-Adress" class="form-control my-3 p-4"
+                  <input type="email" placeholder="Email-Adress" class="form-control"
                   v-model="form.email">
                 </div>
               </div>
               <div class="form-row">
                 <div class="col-lg-7">
-                    <input type="password" placeholder="*******" class="form-control my-3 p-4"
+                    <input type="password" placeholder="*******" class="form-control mt-2"
                     v-model="form.pass">
                 </div>
               </div>
               <div class="form-row">
                 <div class="col-lg-7">
                   <button type="button"
-                  class="btn1 mt-3 mb-5"
+                  class="btn1 mt-2"
                   @click.prevent="validarDatos"
                   >Login</button>
                 </div>
-                <div v-if="error">
-                  <h3 class="text-danger">Usuario no registrado</h3>
-                   <router-link to="/FormLogin" class="btn btn-success">Registrate</router-link>
+                <div>
+                  <h5 class="text-success mt-2">No tienes cuenta?</h5>
+                  <!-- Button trigger modal -->
+                  <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#formModal">
+                    Registrate
+                  </button>
+                  <!-- Modal -->
+                  <div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="formModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="formModalLabel">FormLogin</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"></span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <FormLogin />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </form>
@@ -43,53 +62,35 @@
 </template>
 
 <script>
-// const axios = require('axios');
 import { mapActions, mapGetters} from 'vuex';
+import FormLogin from '../../components/Login/FormLogin.vue';
 
 export default {
     name: 'UserLogin',
+    components: { FormLogin },
     data(){
       return{
         form: {
           email:'',
           pass: ''
         },
-        // corredor: [],
         error: false,
-        // userLogged: null
       }
     },
     created(){
       this.toSetUsers();
     },
-    // mounted() {
-    //   console.log(this.getUsers);
-    // },
     computed: {
       ...mapGetters('users',['getUsers', 'getUserLogged'])
     },
     methods: {
       ...mapActions('users',['toSetUsers', 'toSaveUserLoggedInStorage']),
-      // validarEmail(){
-      //   if(this.corredor.find(user => user.email === this.form.email)) {
-      //     this.emailOk = true;
-      //   }else {
-      //     this.emailOk = false;
-      //   }
-      // },
-      // validarPass(){
-      //   if(this.corredor.find(user => user.pass === this.form.pass) && this.emailOk) {
-      //     this.passOk = true;
-      //   }else {
-      //     this.passOk = false;
-      //   }
-      // },
+
       validarDatos(){
         let datosValidos = false;
         this.getUsers.find( element => {
           if(element.email == this.form.email && element.pass == this.form.pass){
             datosValidos = true;
-            // this.getUserLogged = element;
             this.toSaveUserLoggedInStorage(element);
           }else {
             datosValidos = false;
@@ -114,14 +115,24 @@ export default {
 body {
     background-color: grey;
 }
+
 .row {
     background: white;
     border-radius: 30px;
     box-shadow: 12px 12px 22px grey;
+    height: 20rem;
+    width: 80%;
 }
 img {
     border-top-left-radius: 30px;
     border-bottom-left-radius: 30px;
+    height: 20rem;
+}
+h1 {
+  font-size: 1.5rem;
+}
+h4 {
+  font-size: 1.2rem;
 }
 .btn1 {
     border: none;
