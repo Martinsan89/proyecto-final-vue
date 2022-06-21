@@ -111,6 +111,7 @@ export default {
         productos: prodCompra,
         quantity: this.totalQuantity,
         total: this.totalFinal,
+        fecha: new Date()
         }
 
         await this.$http.post(`${process.env.VUE_APP_API_URL}/api/corredor/${this.getUserLogged.id}/compras`, compra)

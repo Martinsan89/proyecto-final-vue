@@ -7,6 +7,7 @@
       <h1>Compras realizadas</h1>
     </div>
     <div v-for="(producto, index) in productosLista" :key="index" >
+      <h3>Fecha {{producto.fecha}}</h3>
       <h3 class="text-center text-primary">Número de orden: {{producto.id}}</h3>
       <table class="table table-striped table-bordered">
         <thead class="text-dark">
@@ -44,7 +45,8 @@ export default {
   data(){
     return{
       productosLista: [],
-      user: null
+      user: null,
+      fecha: null
     }
   },
   created(){
