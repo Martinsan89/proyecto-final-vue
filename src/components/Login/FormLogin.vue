@@ -123,8 +123,22 @@ export default {
 
         }
     },
+    mounted(){
+      this.toSetUsers();
+    },
     methods:{
-      ...mapActions('users',['toSaveUserLoggedInStorage']),
+      ...mapActions('users',['toSaveUserLoggedInStorage', 'toSetUsers']),
+      RemoveModal(){
+        let divModal = document.querySelector('.modal-backdrop');
+        if(divModal != null){
+          divModal.remove();
+        }
+        let body = document.querySelector('body');
+        if (body != null){
+          body.style = null;
+          body.classList = [];
+        }
+      },
       async nuevoUsuario(){
         if(!this.form.nombre || !this.form.email || !this.form.pass || !this.form.pisada){
                 return this.error.validacion = 'Debe completar el formulario';
@@ -145,6 +159,7 @@ export default {
         Object.keys(this.form).forEach(key => this.form[key] = '');
         this.form.pisada = [];
         this.error.validacion = '';
+        this.RemoveModal();
         // Router
         this.$router.push({name:"UsuarioView"});
 
