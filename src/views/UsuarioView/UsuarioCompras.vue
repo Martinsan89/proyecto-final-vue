@@ -46,7 +46,6 @@ export default {
     return{
       productosLista: [],
       user: null,
-      fecha: null
     }
   },
   created(){
@@ -54,14 +53,14 @@ export default {
     this.getCompras();
   },
   computed: {
-    ...mapGetters('users',['getUserLogged'])
+    ...mapGetters('users',['getUserLogged']),
   },
   methods: {
     ...mapActions('users',['toSetUserLogged']),
     async getCompras(){
       await this.$http.get(`${process.env.VUE_APP_API_URL}/api/corredor/${this.getUserLogged.id}/compras`)
       .then(response => {
-        return this.productosLista = [...response.data].reverse();
+        this.productosLista = [...response.data].reverse();
       })
       .catch(err => {console.log(`${err}`)});
     }

@@ -58,6 +58,4 @@ export default {
   top: 25rem;
   right: 8rem;
 }
-
-
 </style>

@@ -8,7 +8,7 @@
                 <th scope="col" colspan="10">Productos</th>
                 <th scope="col" colspan="1">Cantidad</th>
                 <th scope="col">Stock disponible </th>
-                <th scope="col">Precio x Unidad $</th>
+                <th scope="col"> Unidad $</th>
                 <th scope="col">Total $</th>
             </tr>
         </thead>
@@ -94,6 +94,17 @@ export default {
       this.toVaciarProductos(),
       localStorage.removeItem('carrito');
     },
+    RemoveModal(){
+      let divModal = document.querySelector('.modal-backdrop');
+      if(divModal != null){
+        divModal.remove();
+      }
+      let body = document.querySelector('body');
+      if (body != null){
+        body.style = null;
+        body.classList = [];
+      }
+    },
     async Comprar(){
       this.validarStock;
       if(!this.getUserLogged){
@@ -107,11 +118,15 @@ export default {
           let { id, marca, modelo, precio, quantity, stock } = item;
           return { id, marca, modelo, precio, quantity, stock }
         })
+        // Fecha de compra modificada
+        const fecha = new Date();
+        const options = {day: 'numeric', month: 'numeric', year: 'numeric', hour:'2-digit', minute: '2-digit'}
+        // Compra per se
         const compra = {
         productos: prodCompra,
         quantity: this.totalQuantity,
         total: this.totalFinal,
-        fecha: new Date()
+        fecha: fecha.toLocaleDateString('es-AR', options)
         }
 
         await this.$http.post(`${process.env.VUE_APP_API_URL}/api/corredor/${this.getUserLogged.id}/compras`, compra)
@@ -127,6 +142,7 @@ export default {
           this.toSetStock({prodCompra, stock});
           this.stockUpdate;
           localStorage.removeItem('carrito');
+          this.RemoveModal();
           this.$router.push({name: 'UsuarioCompras'});
         }
       } else {

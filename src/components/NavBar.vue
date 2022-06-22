@@ -5,7 +5,7 @@
         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#carritoModal"><span>{{getProductosEnCarritoLength}}</span></button>
         <h1>LoRun</h1>
         <!-- Modal -->
-        <div class="modal fade" id="carritoModal" tabindex="-1" role="dialog" aria-labelledby="carritoModalTitulo" aria-hidden="true">
+        <div class="modal" id="carritoModal" tabindex="-1" role="dialog" aria-labelledby="carritoModalTitulo" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">

@@ -45,16 +45,6 @@ export default {
     ...mapGetters('users',['getUserLogged'])
   },
   methods: {
-    // async getProductos(){
-    //   await this.$http.get(`${process.env.VUE_APP_API_URL}/api/producto`)
-    //   .then(response => {
-    //     return response.data;
-    //   })
-    //   .then(data => {
-    //     this.productoLista = data;
-    //   })
-    //   .catch(err => {console.log(`${err}`)});
-    // },
     Volver() {
       localStorage.clear();
       this.$router.push('/');
