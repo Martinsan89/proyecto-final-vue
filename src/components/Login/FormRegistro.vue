@@ -1,5 +1,5 @@
 <template>
- <div class="UserLogin">
+ <div class="FormLogin">
     <section class="Form">
       <div class="container">
         <div class="column no-gutters text-dark">
@@ -104,7 +104,7 @@
 import { mapActions } from 'vuex';
 
 export default {
-    name: "FormLogin",
+    name: "FormRegistro",
     data(){
         return {
             form:{
@@ -124,10 +124,9 @@ export default {
         }
     },
     mounted(){
-      this.toSetUsers();
     },
     methods:{
-      ...mapActions('users',['toSaveUserLoggedInStorage', 'toSetUsers']),
+      ...mapActions('users',['toSaveUserLoggedInStorage']),
       RemoveModal(){
         let divModal = document.querySelector('.modal-backdrop');
         if(divModal != null){
@@ -161,7 +160,7 @@ export default {
         this.error.validacion = '';
         this.RemoveModal();
         // Router
-        this.$router.push({name:"UsuarioView"});
+        this.$router.push({name:"Home"});
 
       },
       validarNombre(){

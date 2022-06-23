@@ -31,13 +31,11 @@ import { mapGetters, mapActions} from 'vuex';
 export default {
   name: 'DataUsers',
   created(){
-    this.toSetUsers();
   },
   computed: {
     ...mapGetters('users',['getUsers'])
   },
   methods: {
-    ...mapActions('users',['toSetUsers'])
   }
 
 }

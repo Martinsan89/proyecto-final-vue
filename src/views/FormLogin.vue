@@ -40,13 +40,13 @@
                     <div class="modal-dialog" role="document">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h5 class="modal-title" id="formModalLabel">FormLogin</h5>
+                          <h5 class="modal-title" id="formModalLabel">Form Registro</h5>
                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true"></span>
                           </button>
                         </div>
                         <div class="modal-body">
-                          <FormLogin />
+                          <FormRegistro />
                         </div>
                       </div>
                     </div>
@@ -63,11 +63,11 @@
 
 <script>
 import { mapActions, mapGetters} from 'vuex';
-import FormLogin from '../../components/Login/FormLogin.vue';
+import FormRegistro from '../components/Login/FormRegistro.vue';
 
 export default {
     name: 'UserLogin',
-    components: { FormLogin },
+    components: { FormRegistro },
     data(){
       return{
         form: {
@@ -77,28 +77,27 @@ export default {
         error: false,
       }
     },
-    created(){
-      this.toSetUsers();
+    mounted(){
+      //console.log(this.getUserLogged);
     },
     computed: {
       ...mapGetters('users',['getUsers', 'getUserLogged'])
     },
     methods: {
-      ...mapActions('users',['toSetUsers', 'toSaveUserLoggedInStorage']),
+      ...mapActions('users',['SaveUserLogged']),
 
       validarDatos(){
-        let datosValidos = false;
-        this.getUsers.find( element => {
-          if(element.email == this.form.email && element.pass == this.form.pass){
-            datosValidos = true;
-            this.toSaveUserLoggedInStorage(element);
-          }else {
-            datosValidos = false;
-          }
-        });
+      console.log(this.getUsers);
+        const userEncontrado = this.getUsers.find(item => (item.email == this.form.email && item.pass == this.form.pass));
+        if (userEncontrado == null){
+          alert("Datos inválidos!");
+          return;
+        }
+
+        this.SaveUserLogged(userEncontrado);
         if (this.getUserLogged != null){
           if (this.getUserLogged?.isAdmin == false) {
-              this.$router.push({name: 'UsuarioView'});
+              this.$router.push({name: 'Home'});
             }else {
               this.$router.push({name: 'Admin'});
             }
@@ -121,7 +120,6 @@ body {
     border-radius: 30px;
     box-shadow: 12px 12px 22px grey;
     height: 20rem;
-    width: 80%;
 }
 img {
     border-top-left-radius: 30px;

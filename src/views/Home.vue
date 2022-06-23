@@ -3,9 +3,12 @@
     <div class="nav">
       <NavBar />
     </div>
-    <div class="login">
-      <UserLogin />
-    </div>
+
+    <button v-if="userLogged != null" class="btn btn-warning btnLogOff" @click="LogOff">Log Off</button>
+    <router-link v-else class="btn btn-warning btnLogOff" :to="{name: 'Login'}">Login</router-link>
+
+    <InfoUsuario />
+
     <div class="productos">
       <Productos />
     </div>
@@ -14,25 +17,34 @@
 
 <script>
 import NavBar from '../components/NavBar.vue';
-import UserLogin from '@/components/Login/UserLogin.vue';
 import Productos from '../components/Productos.vue';
-import { mapActions } from 'vuex';
+import InfoUsuario from '../components/InfoUsuario.vue';
+import { mapActions, mapState } from 'vuex';
 
 export default {
   name: 'Home',
   components: {
-    Productos, NavBar, UserLogin
+    Productos, NavBar, InfoUsuario
   },
   mounted(){
     this.toSetCarrito();
   },
+  computed:{
+    ...mapState("users", ["userLogged"]),
+  },
   methods: {
     ...mapActions('carrito',['toSetCarrito']),
+    ...mapActions("users", ["LogOff"]),
   }
 }
 </script>
 
 <style scoped>
+.btnLogOff{
+  position:absolute;
+  right: 10px;
+  top:10px;
+}
 .home {
   position: relative;
   height: max-content;
@@ -49,13 +61,8 @@ export default {
 .login {
   width: 60%;
 }
-.UserLogin {
+.FormLogin {
   position: absolute;
   right: 0rem;
-}
-.productos {
-  position: absolute;
-  top: 25rem;
-  right: 8rem;
 }
 </style>

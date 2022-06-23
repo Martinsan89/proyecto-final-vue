@@ -50,7 +50,6 @@ import { mapActions, mapGetters } from 'vuex';
 export default {
   name: "Carrito",
   created(){
-    this.toSetUserLogged();
     this.toSetCarrito();
   },
   mounted(){
@@ -89,7 +88,6 @@ export default {
   methods: {
     ...mapActions(['toSetStock']),
     ...mapActions('carrito',['toVaciarProductos', 'toSetCarrito', 'toSetSumar', 'toSetRestar']),
-    ...mapActions('users',['toSetUserLogged']),
     VaciarCarrito(){
       this.toVaciarProductos(),
       localStorage.removeItem('carrito');
