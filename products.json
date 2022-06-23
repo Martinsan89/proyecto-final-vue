@@ -1,0 +1,164 @@
+[
+    {
+		"id" : 1,
+		"marca" : "Reebok",
+      "modelo" : "Floatride Energy 3",
+        "peso" : "241g",
+        "precio" : 24100,
+        "drop" : "9mm",
+        "img" : "reebok-floatride.jpeg"
+    },
+    {
+		"id" : 2,
+		"marca" : "Saucony",
+      "modelo" : "Endorphin Speed 2",
+        "peso" : "227g",
+        "precio" : 22700,
+        "drop" : "8mm",
+        "img" : "saucony-endorphin.jpeg"
+    },
+    {
+		"id" : 3,
+		"marca" : "Under Armour",
+      "modelo" : "Flow Velociti Wind",
+        "peso" : "229g",
+        "precio" : 22900,
+        "drop" : "8mm",
+        "img" : "under-armour-micro.jpeg"
+    },
+    {
+		"id" : 4,
+		"marca" : "Adidas",
+     "modelo" : "Adizero Boston 10",
+        "peso" : "294g",
+        "precio" : 29400,
+        "drop" : "7mm",
+        "img" : "adidas-adizero.jpeg"
+    },
+    {
+		"id" : 5,
+		"marca" : "Nike",
+     "modelo" : "React Infinity Run Flyknit 2",
+        "peso" : "302g",
+        "precio" : 30200,
+        "drop" : "7mm",
+        "img" : "nike-react.jpeg"
+    },
+    {
+		"id" : 6,
+		"marca" : "Asics",
+      "modelo" : "Gel Cumulus 22",
+        "peso" : "261g",
+        "precio" : 26100,
+        "drop" : "10mm",
+        "img" : "./assets/ImgZapas/asics-gel.jpeg"
+    },
+	{
+		"id" : 7,
+		"marca" : "Ascis",
+  		"modelo" : "Gel Kayano 28",
+    	"peso" : "305g",
+    	"precio" : 30500,
+    	"drop" : "10mm",
+		"img" : "./assets/ImgZapas/asics-gel-kayano-28.jpeg"
+	},
+	{
+		"id" : 8,
+		"marca" : "Saucony",
+		"modelo" : "Hurricane 23",
+		"peso" : "323g",
+		"precio" : 32300,
+		"drop" : "8mm",
+		"img" : "./assets/ImgZapas/saucony-hurricane-23.jpeg"
+	},
+	{
+		"id" : 9,
+		"marca" : "Mizuno",
+		"modelo" : "Wave Inspire 17",
+		"peso" : "309g",
+		"precio" : 30900,
+		"drop" : "12mm",
+		"img" : "./assets/ImgZapas/mizuno-wave-inspire-17.jpeg"
+	},
+	{
+		"id" : 10,
+		"marca" : "Ascis",
+      "modelo" : "Gt 1000 10",
+        "peso" : "281g",
+        "precio" : 28100,
+        "drop" : "9mm",
+        "img" : "./assets/ImgZapas/asics-gt-1000-10.jpeg"
+    },
+    {
+		"id" : 11,
+		"marca" : "New Balance",
+      	"modelo" : "Fresh Foam 860 v12",
+        "peso" : "278g",
+        "precio" : 27800,
+        "drop" : "8mm",
+        "img" : "./assets/ImgZapas/new-balance-fresh-foam.jpeg"
+    },
+    {
+		"id" : 12,
+		"marca" : "Saucony",
+      	"modelo" : "Guide 14",
+        "peso" : "298g",
+        "precio" : 29800,
+        "drop" : "8mm",
+        "img" : "./assets/ImgZapas/saucony-guide.jpeg"
+    },
+	{
+		"id" : 13,
+		"marca" : "Asics",
+      	"modelo" : "Gel Nimbus 23",
+        "peso" : "309g",
+        "precio" : 30900,
+        "drop" : "10mm",
+        "img" : "./assets/ImgZapas/asics-nimbus.jpeg"
+    },
+    {
+		"id" : 14,
+		"marca" : "Adidas",
+      	"modelo" : "Edge Lux 3",
+        "peso" : "302g",
+        "precio" : 30200,
+        "drop" : "8mm",
+        "img" : "./assets/ImgZapas/adidas-edge.jpeg"
+    },
+    {
+		"id" : 15,
+		"marca" : "Saucony",
+      	"modelo" : "Triumph 18",
+        "peso" : "315g",
+        "precio" : 31500,
+        "drop" : "8mm",
+        "img" : "./assets/ImgZapas/saucony-triumph.jpeg"
+    },
+	{
+		"id" : 16,
+		"marca" : "Under Armour",
+      	"modelo" : "Micro G Assert 6",
+        "peso" : "261g",
+        "precio" : 26100,
+        "drop" : "10mm",
+        "img" : "./assets/ImgZapas/under-armour-flow.jpeg"
+    },
+    {
+		"id" : 17,
+		"marca" : "Brooks",
+      	"modelo" : "Pureflow 7",
+        "peso" : "252g",
+        "precio" : 25200,
+        "drop" : "8mm",
+        "img" : "./assets/ImgZapas/brooks-pureflow.jpeg"
+    },
+    {
+		"id" : 18,
+		"marca" : "New Balance",
+      	"modelo" : "Fresh Foam 880 v11",
+        "peso" : "275g",
+        "precio" : 27500,
+        "drop" : "10mm",
+        "img" : "./assets/ImgZapas/new-balance.jpeg"
+    }
+]
