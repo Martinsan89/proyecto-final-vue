@@ -3,7 +3,6 @@ import App from "./App.vue";
 import router from "./routers/router";
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-// import userMixin from "./mixins/user.mixin";
 import store from "./store/index";
 import VueToastr2 from "vue-toastr-2";
 import "vue-toastr-2/dist/vue-toastr-2.min.css";
@@ -15,7 +14,6 @@ Vue.use(VueToastr2);
 Vue.config.productionTip = false;
 Vue.prototype.$http = axios;
 
-// Vue.mixin(userMixin);
 
 new Vue({
   store,

@@ -1,8 +1,6 @@
 <template>
   <div>
-    <button class="btn btn-dark mx-3"
-    @click="Volver"
-    >Volver</button>
+    <router-link class="btn btn-dark mx-3" :to="{name: 'Home'}">Volver</router-link>
     <div class="titulo">
       <h1 class="text-center">Cuenta de administracion de productos</h1>
       <div class="btns text-center">

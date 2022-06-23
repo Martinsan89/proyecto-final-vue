@@ -1,8 +1,6 @@
 <template>
   <div class="listaCompras">
-    <router-link class="btn btn-dark mx-3"
-    to="/UsuarioView"
-    >Volver</router-link>
+    <router-link class="btn btn-dark mx-3" :to="{name: 'Home'}">Volver</router-link>
     <div class="text-center">
       <h1>Compras realizadas</h1>
     </div>
@@ -49,14 +47,12 @@ export default {
     }
   },
   created(){
-    this.toSetUserLogged();
     this.getCompras();
   },
   computed: {
     ...mapGetters('users',['getUserLogged']),
   },
   methods: {
-    ...mapActions('users',['toSetUserLogged']),
     async getCompras(){
       await this.$http.get(`${process.env.VUE_APP_API_URL}/api/corredor/${this.getUserLogged.id}/compras`)
       .then(response => {
